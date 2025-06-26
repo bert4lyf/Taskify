@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taskify.AI - Landing Page</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter & Space Mono (for unique email input font) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons (latest version for fa-x-twitter) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f8f8; /* Light background for the whole page */
+            overflow-x: hidden; /* Prevent horizontal scroll due to animations */
+            scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+        }
+        .container {
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        /* Custom styles for hero image background with subtle parallax */
+        .hero-section {
+            background-image: url('./Winx.jpg'); /* Placeholder image */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed; /* Parallax effect */
+        }
+
+        /* Keyframe for subtle pulsate animation on logo */
+        @keyframes pulsate {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Keyframe for a subtle card hover glow effect */
+        @keyframes cardGlow {
+            0% { box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1), 0 0 0 0px rgba(99, 102, 241, 0); }
+            50% { box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2), 0 0 15px 5px rgba(99, 102, 241, 0.6); } /* Deeper shadow and indigo glow */
+            100% { box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1), 0 0 0 0px rgba(99, 102, 241, 0); }
+        }
+
+        /* Keyframe for footer background gradient animation (Heavy) */
+        @keyframes footerBgShimmer {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        /* Keyframe for email input border glow (Heavy) */
+        @keyframes inputBorderGlow {
+            0% { border-color: #4b5563; box-shadow: 0 0 0px rgba(79, 70, 229, 0); }
+            50% { border-color: #818cf8; box-shadow: 0 0 15px 5px rgba(79, 70, 229, 0.6); } /* Stronger indigo glow */
+            100% { border-color: #4b5563; box-shadow: 0 0 0px rgba(79, 70, 229, 0); }
+        }
+
+        /* Keyframe for footer email input background shine */
+        @keyframes inputBgShine {
+            0% { background-position: 200% 0%; }
+            100% { background-position: -200% 0%; }
+        }
+
+
+        /* Apply pulsate animation to logo icon */
+        .logo-icon {
+            animation: pulsate 2s infinite ease-in-out;
+        }
+
+        /* CSS for Scroll-triggered Fade-in Effect */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px); /* Start slightly below its final position */
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out; /* Smooth transition */
+            will-change: opacity, transform; /* Optimize for animation performance */
+        }
+
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0); /* Move to its final position */
+        }
+
+        /* Staggered transition delays for elements within fade-in sections */
+        .fade-in-section > *,
+        .fade-in-section .grid > div {
+            transition-delay: 0s; /* Default, overridden by specific rules */
+        }
+        /* Sequential delay for direct children (e.g., text blocks) */
+        .fade-in-section > *:nth-child(1) { transition-delay: 0.1s; }
+        .fade-in-section > *:nth-child(2) { transition-delay: 0.2s; }
+        .fade-in-section > *:nth-child(3) { transition-delay: 0.3s; }
+        .fade-in-section > *:nth-child(4) { transition-delay: 0.4s; }
+        .fade-in-section > *:nth-child(5) { transition-delay: 0.5s; }
+        .fade-in-section > *:nth-child(6) { transition-delay: 0.6s; }
+
+        /* Staggered delay for grid items */
+        .fade-in-section .grid > div:nth-child(1) { transition-delay: 0.1s; }
+        .fade-in-section .grid > div:nth-child(2) { transition-delay: 0.25s; } /* Slightly different delay */
+        .fade-in-section .grid > div:nth-child(3) { transition-delay: 0.4s; }
+
+        /* Specific hover effects */
+        .nav-link-hover:hover {
+            color: #4f46e5; /* Deeper indigo */
+            text-shadow: 0 0 10px rgba(79, 70, 229, 0.8); /* Stronger glow */
+            border-bottom: 3px solid #6366f1; /* Thicker underline effect */
+            padding-bottom: 2px; /* Adjust spacing */
+            transform: translateY(-2px); /* Slight lift */
+        }
+
+        .btn-hover-bounce:hover {
+            transform: translateY(-5px) scale(1.08); /* More lift and scale */
+            box-shadow: 0 15px 30px rgba(99, 102, 241, 0.6); /* Even more pronounced shadow with color */
+        }
+
+        .card-hover-effect:hover {
+            transform: translateY(-8px) scale(1.05); /* More lift, slight scale */
+            animation: cardGlow 1s forwards; /* Faster glow animation */
+            border-color: #6366f1; /* Highlight border on hover */
+        }
+        .card-hover-effect:hover .feature-icon {
+            color: #f59e0b; /* Change icon color on hover to amber */
+            filter: drop-shadow(0 0 8px rgba(245, 158, 11, 1)); /* Stronger icon glow */
+        }
+        /* Mobile menu hover effect */
+        .mobile-menu-item:hover {
+            background-color: #e0e7ff; /* Light indigo background */
+            color: #4f46e5; /* Darker text */
+            transform: translateX(8px); /* Slide more to the right */
+            box-shadow: 3px 0 10px rgba(79, 70, 229, 0.2); /* Subtle shadow on slide */
+        }
+
+        /* Footer specific styles (Heavy) */
+        .footer-bg-animated {
+            background: linear-gradient(135deg, #0f172a, #1a202c, #3f008f, #4a00af, #0f172a); /* More vibrant, deep colors */
+            background-size: 300% 100%; /* Larger background size for more motion */
+            animation: footerBgShimmer 15s linear infinite; /* Slower, more majestic shimmer */
+            box-shadow: inset 0 10px 20px rgba(0, 0, 0, 0.5), 0 -10px 30px rgba(0, 0, 0, 0.6); /* Heavy inner and outer shadow */
+        }
+        .footer-bg-animated h4 {
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.4); /* Glow for footer headings */
+        }
+        .footer-bg-animated ul li a:hover {
+            color: #a78bfa; /* Lighter purple on hover */
+            text-shadow: 0 0 10px rgba(167, 139, 250, 0.8); /* Stronger glow */
+            transform: translateX(5px); /* Slide right */
+        }
+
+        /* Footer social icon hover (Heavy) */
+        .footer-social-icon:hover {
+            color: #a78bfa; /* Lighter purple on hover */
+            text-shadow: 0 0 15px #a78bfa; /* Very strong glow */
+            transform: scale(1.5) rotate(15deg); /* Much larger scale and rotation */
+        }
+
+        /* Footer email input and button (Heavy & Unique) */
+        .email-input-unique {
+            font-family: 'Space Mono', monospace; /* Unique font style */
+            font-size: 1.1rem;
+            padding: 0.85rem 1.25rem;
+            border: 2px solid #4b5563; /* Initial border */
+            transition: all 0.5s ease-in-out;
+        }
+        .email-input-unique:focus {
+            outline: none;
+            border-color: #a78bfa; /* Focus color */
+            box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.5); /* Focus glow */
+        }
+        .email-input-unique:hover {
+            animation: inputBorderGlow 1.5s infinite alternate; /* Animated border glow on hover */
+        }
+
+        .footer-email-btn {
+            background-color: #4f46e5; /* Tailwind indigo-600 */
+            transition: all 0.4s ease;
+        }
+        .footer-email-btn:hover {
+            background-color: #6366f1; /* Tailwind indigo-500 */
+            transform: translateY(-5px) scale(1.1); /* More pronounced lift and scale */
+            box-shadow: 0 15px 30px rgba(79, 70, 229, 0.6); /* Heavier shadow */
+            background: linear-gradient(45deg, #6366f1, #8b5cf6); /* Gradient shift on hover */
+        }
+
+        /* Styles for the new email signup wrapper */
+        .email-signup-wrapper {
+            background-color: rgba(31, 41, 55, 0.6); /* Darker, semi-transparent background */
+            padding: 1.5rem; /* More padding inside */
+            margin-top: 1.5rem; /* Add some margin from the brand logo above */
+            border-radius: 0.75rem; /* Rounded corners */
+            box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.6), 0 5px 20px rgba(0, 0, 0, 0.3); /* Heavy inner and outer shadow */
+            backdrop-filter: blur(5px); /* Subtle blur effect */
+            position: relative; /* For absolute positioning of inner effects */
+            overflow: hidden; /* Ensure inner effects are clipped */
+        }
+
+        .email-signup-wrapper .footer-input-bg-effect {
+            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.2), transparent); /* Stronger shine */
+            background-size: 200% 100%;
+            animation: inputBgShine 4s linear infinite;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none; /* Ensure clicks pass through */
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Header Section -->
+    <header class="bg-white py-4 shadow-sm fixed w-full z-50 top-0">
+        <nav class="container flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <!-- Taskify.AI Logo/Text with pulsate animation -->
+                <i class="fas fa-tasks text-indigo-600 text-xl logo-icon"></i>
+                <span class="font-bold text-xl">Taskify.AI</span>
+            </div>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="#features-section" class="text-gray-700 nav-link-hover font-medium transition duration-300">Features</a>
+                <a href="#about-us-section" class="text-gray-700 nav-link-hover font-medium transition duration-300">About</a>
+                <a href="#testimonials-section" class="text-gray-700 nav-link-hover font-medium transition duration-300">Testimonials</a>
+                <a href="#cta-section" class="text-gray-700 nav-link-hover font-medium transition duration-300">Contact Us</a>
+                <button class="bg-transparent text-indigo-600 border border-indigo-600 py-2 px-4 rounded-lg hover:bg-indigo-50 btn-hover-bounce transition duration-300">Login</button>
+                <button class="bg-indigo-600 text-white py-2 px-4 rounded-lg shadow-md hover:bg-indigo-700 btn-hover-bounce transition duration-300">Sign Up</button>
+            </div>
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-gray-700 focus:outline-none p-2 rounded-md hover:bg-gray-100 transition duration-200">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </nav>
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white px-4 pt-2 pb-4 shadow-lg">
+            <a href="#features-section" class="block py-2 text-gray-700 mobile-menu-item rounded-md font-medium transition duration-200">Features</a>
+            <a href="#about-us-section" class="block py-2 text-gray-700 mobile-menu-item rounded-md font-medium transition duration-200">About</a>
+            <a href="#testimonials-section" class="block py-2 text-gray-700 mobile-menu-item rounded-md font-medium transition duration-200">Testimonials</a>
+            <a href="#cta-section" class="block py-2 text-gray-700 mobile-menu-item rounded-md font-medium transition duration-200">Contact Us</a>
+            <button class="w-full mt-2 bg-transparent text-indigo-600 border border-indigo-600 py-2 px-4 rounded-lg hover:bg-indigo-50 transition duration-200">Login</button>
+            <button class="w-full mt-2 bg-indigo-600 text-white py-2 px-4 rounded-lg shadow-md hover:bg-indigo-700 transition duration-200">Sign Up</button>
+        </div>
+    </header>
+
+    <main class="mt-16 md:mt-20"> <!-- Adjust margin-top to account for fixed header -->
+        <!-- Hero Section -->
+        <section class="hero-section py-24 md:py-32 text-center text-white relative overflow-hidden">
+            <!-- Overlay with rounded corners -->
+            <div class="absolute inset-0 bg-black bg-opacity-40 rounded-xl mx-4 my-8 md:mx-auto md:my-16 max-w-7xl"></div>
+            <div class="container relative z-10 fade-in-section">
+                <h1 class="text-3xl md:text-5xl font-bold mb-4 leading-tight">Empower Your Team with Intelligent Assistance</h1>
+                <p class="text-lg md:text-xl max-w-3xl mx-auto">Taskify.AI offers a suite of tools designed to enhance employee productivity, ensure ethical compliance, and streamline note-taking with AI-powered solutions.</p>
+            </div>
+        </section>
+
+        <!-- Key Features Section -->
+        <section class="py-16 md:py-24 bg-white fade-in-section" id="features-section">
+            <div class="container">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 md:mb-12 text-center">Key Features</h2>
+                <p class="text-gray-600 text-center max-w-4xl mx-auto mb-12">
+                    Taskify.AI offers a comprehensive suite of tools designed to enhance your team's efficiency and ethical standards.
+                    From smart task delegation to AI-powered note-taking, and in-depth insights,
+                    from auto-generated tasks to personalized meeting notes, everything's handled.
+                    Plus, a built-in ethics check keeps the workplace fair and transparent.
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Feature Card 1: Smart Task Delegation -->
+                    <div class="bg-gray-50 p-6 rounded-xl shadow-md border border-gray-200 transition duration-300 ease-in-out card-hover-effect">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-list-check text-2xl text-indigo-600 mr-3 feature-icon transition duration-300"></i>
+                            <h3 class="text-xl font-semibold">Smart Task Delegation</h3>
+                        </div>
+                        <p class="text-gray-700">
+                            Effortlessly assign and prioritize tasks with our intelligent delegation system.
+                            Streamline workflows and ensure accountability across your team.
+                        </p>
+                    </div>
+
+                    <!-- Feature Card 2: Ethics Auditor -->
+                    <div class="bg-gray-50 p-6 rounded-xl shadow-md border border-gray-200 transition duration-300 ease-in-out card-hover-effect">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-shield-alt text-2xl text-indigo-600 mr-3 feature-icon transition duration-300"></i>
+                            <h3 class="text-xl font-semibold">Ethics Auditor</h3>
+                        </div>
+                        <p class="text-gray-700">
+                            Maintain the highest ethical standards with our built-in Ethics Auditor. Identify and mitigate potential risks in your
+                            projects, ensuring compliance and responsible decision-making.
+                        </p>
+                    </div>
+
+                    <!-- Feature Card 3: AI-Powered Note-Taking -->
+                    <div class="bg-gray-50 p-6 rounded-xl shadow-md border border-gray-200 transition duration-300 ease-in-out card-hover-effect">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-robot text-2xl text-indigo-600 mr-3 feature-icon transition duration-300"></i>
+                            <h3 class="text-xl font-semibold">AI-Powered Note-Taking</h3>
+                        </div>
+                        <p class="text-gray-700">
+                            Capture and organize meeting notes, ideas, and insights with our AI-powered note-taking assistant. Easily transcribe
+                            and summarize key points, and easily share information with your team.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Us Section -->
+        <section class="py-16 md:py-24 bg-gray-100 fade-in-section" id="about-us-section">
+            <div class="container grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6">About Us</h2>
+                    <p class="text-gray-700 mb-4">
+                        At Taskify, we believe that great workplaces balance performance with people first values.
+                    </p>
+                    <p class="text-gray-700 mb-4">
+                        Our AI assistant helps teams stay organized, accountable, and ethical. From assigning tasks to taking minutes to ensuring
+                        respectful communication using ethical AI.
+                    </p>
+                    <p class="text-gray-700 mb-6">
+                        Powered by IBM Granite and driven by a passionate team of developers, product thinkers, and designers, we're here to bring
+                        clarity, transparency, and a bit of calm to the workplace chaos.
+                    </p>
+                    <p class="text-indigo-600 font-semibold">We're not just building tools,</p>
+                    <p class="text-indigo-600 font-semibold">We're building better work cultures.</p>
+                </div>
+                <div>
+                    <img src="https://placehold.co/600x400/D0D0D0/333333?text=Team+Meeting" alt="Team Meeting" class="rounded-xl shadow-lg w-full h-auto transform transition duration-500 hover:scale-102 hover:shadow-2xl">
+                </div>
+            </div>
+        </section>
+
+        <!-- What Our Users Say Section -->
+        <section class="py-16 md:py-24 bg-white fade-in-section" id="testimonials-section">
+            <div class="container">
+                <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center">What Our Users Say</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Testimonial Card 1 -->
+                    <div class="bg-gray-50 p-6 rounded-xl shadow-md border border-gray-200 text-center transition duration-300 ease-in-out card-hover-effect">
+                        <img src="https://placehold.co/120x120/E0E0E0/666666?text=User1" alt="Sophia Chen" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover transform transition duration-300 hover:scale-110 border-4 border-transparent hover:border-indigo-400">
+                        <p class="text-gray-700 mb-4">
+                            "Taskify.AI has revolutionized our workflow. Task delegation is seamless, and the ethics auditor
+                            gives me peace of mind."
+                        </p>
+                        <p class="font-semibold text-gray-800">Shewtambari</p>
+                        <p class="text-sm text-gray-500">Project Manager</p>
+                    </div>
+
+                    <!-- Testimonial Card 2 -->
+                    <div class="bg-gray-50 p-6 rounded-xl shadow-md border border-gray-200 text-center transition duration-300 ease-in-out card-hover-effect">
+                        <img src="https://placehold.co/120x120/E0E0E0/666666?text=User2" alt="Derek Lee" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover transform transition duration-300 hover:scale-110 border-4 border-transparent hover:border-indigo-400">
+                        <p class="text-gray-700 mb-4">
+                            "The AI note-taking is a game-changer. I can focus on the conversation, knowing that Taskify.AI
+                            captures every detail accurately."
+                        </p>
+                        <p class="font-semibold text-gray-800">Samarth</p>
+                        <p class="text-sm text-gray-500">Team Lead</p>
+                    </div>
+
+                    <!-- Testimonial Card 3 -->
+                    <div class="bg-gray-50 p-6 rounded-xl shadow-md border border-gray-200 text-center transition duration-300 ease-in-out card-hover-effect">
+                        <img src="https://placehold.co/120x120/E0E0E0/666666?text=User3" alt="Olivia Rodriguez" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover transform transition duration-300 hover:scale-110 border-4 border-transparent hover:border-indigo-400">
+                        <p class="text-gray-700 mb-4">
+                            "I love how Taskify.AI integrates with our existing tools. It's intuitive and has significantly
+                            boosted our team's efficiency."
+                        </p>
+                        <p class="font-semibold text-gray-800">Shrez</p>
+                        <p class="text-sm text-gray-500">Analyst</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action Section -->
+        <section class="py-16 md:py-24 bg-gray-100 text-center fade-in-section" id="cta-section">
+            <div class="container">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8">Ready to Transform Your Team's Productivity?</h2>
+                <button class="bg-indigo-600 text-white py-3 px-8 rounded-lg shadow-lg hover:bg-indigo-700 btn-hover-bounce transition duration-300 text-lg font-medium">Contact Us</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="footer-bg-animated text-white py-12 fade-in-section">
+        <div class="container grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-8 text-left">
+            <!-- Brand & Email Signup -->
+            <div class="col-span-1 md:col-span-2 lg:col-span-1">
+                <div class="flex items-center space-x-2 mb-4">
+                    <i class="fas fa-tasks text-indigo-400 text-2xl logo-icon"></i> <!-- Pulsating icon in footer too -->
+                    <span class="font-bold text-2xl">Taskify</span>
+                </div>
+                <!-- New wrapper for the email subscription part -->
+                <div class="email-signup-wrapper">
+                    <p class="text-gray-300 mb-4 text-sm relative z-10">Your business email</p>
+                    <div class="flex relative z-10">
+                        <input type="email" placeholder="Enter your email" class="p-3 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 flex-grow text-gray-800 email-input-unique">
+                        <button class="footer-email-btn text-white p-3 rounded-r-lg">Sign Up</button>
+                    </div>
+                    <!-- Decorative element for a subtle animation/glow in the background -->
+                    <div class="footer-input-bg-effect"></div>
+                </div>
+            </div>
+
+            <!-- Solutions -->
+            <div class="pl-0 md:pl-4"> <!-- Adjust padding for alignment -->
+                <h4 class="font-semibold text-lg mb-4">Solutions</h4>
+                <ul>
+                    <li class="mb-2"><a href="#" class="text-gray-400 hover:text-white transition duration-200">Enterprise</a></li>
+                    <li class="mb-2"><a href="#" class="text-gray-400 hover:text-white transition duration-200">Corporate</a></li>
+                    <li class="mb-2"><a href="#" class="text-gray-400 hover:text-white transition duration-200">Professional</a></li>
+                </ul>
+            </div>
+
+            <!-- Company -->
+            <div class="pl-0 md:pl-4"> <!-- Adjust padding for alignment -->
+                <h4 class="font-semibold text-lg mb-4">Company</h4>
+                <ul>
+                    <li class="mb-2"><a href="#" class="text-gray-400 hover:text-white transition duration-200">About Us</a></li>
+                    <li class="mb-2"><a href="#" class="text-gray-400 hover:text-white transition duration-200">Careers</a></li>
+                    <li class="mb-2"><a href="#" class="text-gray-400 hover:text-white transition duration-200">Contact</a></li>
+                </ul>
+            </div>
+
+            <!-- Learn -->
+            <div class="pl-0 md:pl-4"> <!-- Adjust padding for alignment -->
+                <h4 class="font-semibold text-lg mb-4">Learn</h4>
+                <ul>
+                    <li class="mb-2"><a href="#" class="text-gray-400 hover:text-white transition duration-200">Blog</a></li>
+                    <li class="mb-2"><a href="#" class="text-gray-400 hover:text-white transition duration-200">Guides</a></li>
+                    <li class="mb-2"><a href="#" class="text-gray-400 hover:text-white transition duration-200">FAQs</a></li>
+                </ul>
+            </div>
+
+            <!-- Services & Follow Us (Combined into one column) -->
+            <div class="pl-0 md:pl-4"> <!-- Adjust padding for alignment -->
+                <h4 class="font-semibold text-lg mb-4">Services</h4>
+                <ul>
+                    <li class="mb-2"><a href="#" class="text-gray-400 hover:text-white transition duration-200">Ethics Auditor</a></li>
+                    <li class="mb-2"><a href="#" class="text-gray-400 hover:text-white transition duration-200">Task Delegation</a></li>
+                    <li class="mb-2"><a href="#" class="text-gray-400 hover:text-white transition duration-200">AI Summation</a></li>
+                </ul>
+                <h4 class="font-semibold text-lg mb-4 mt-6">Follow Us On</h4>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 footer-social-icon transition duration-300"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-gray-400 footer-social-icon transition duration-300"><i class="fab fa-x-twitter"></i></a> <!-- Updated for 'X' logo -->
+                    <a href="#" class="text-gray-400 footer-social-icon transition duration-300"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <p class="text-gray-400 mt-4 text-sm">support@taskify.ai</p>
+            </div>
+        </div>
+        <div class="container text-center text-gray-500 text-sm mt-8 pt-8 border-t border-gray-700">
+            &copy; 2025 Taskify.AI. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript for Mobile Menu Toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.remove('hidden');
+            } else {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+
+        // Smooth scrolling for anchor links to new sections
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    // Calculate offset to account for fixed header
+                    const headerOffset = document.querySelector('header').offsetHeight;
+                    const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                    const offsetPosition = elementPosition - headerOffset - 20; // Add some extra padding
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+
+                    // Close mobile menu if open
+                    const mobileMenu = document.getElementById('mobile-menu');
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+
+        // JavaScript for Scroll-triggered Fade-in Effect
+        document.addEventListener('DOMContentLoaded', () => {
+            const fadeInSections = document.querySelectorAll('.fade-in-section');
+
+            // Set up the Intersection Observer
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Add the 'is-visible' class when the element enters the viewport
+                        entry.target.classList.add('is-visible');
+                        // Stop observing once it's visible
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                root: null, // Use the viewport as the root
+                threshold: 0.1 // Trigger when 10% of the element is visible
+            });
+
+            // Observe each fade-in section
+            fadeInSections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
