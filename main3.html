@@ -1,0 +1,1700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taskify_AI - Workplace Efficiency Suite</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --primary-dark: #3a0ca3;
+            --secondary: #f72585;
+            --success: #4cc9f0;
+            --warning: #f8961e;
+            --danger: #ef233c;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --gray-light: #e9ecef;
+            
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --text-light: #64748b;
+            --border-color: #e2e8f0;
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            
+            --radius-sm: 0.25rem;
+            --radius: 0.5rem;
+            --radius-lg: 1rem;
+            --radius-full: 9999px;
+        }
+
+        /* Dark mode variables */
+        .dark-mode {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f8fafc;
+            --text-light: #94a3b8;
+            --border-color: #334155;
+        }
+
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+            line-height: 1.5;
+        }
+
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        h1 { font-size: 2rem; }
+        h2 { font-size: 1.75rem; }
+        h3 { font-size: 1.5rem; }
+        h4 { font-size: 1.25rem; }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Header */
+        .app-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            position: relative;
+            z-index: 10;
+            transition: background 0.3s ease;
+        }
+
+        .app-header:hover {
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+        }
+
+        .app-header h1 {
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            background: linear-gradient(to right, white, #e2e8f0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .header-controls button {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .header-controls button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        /* Main content layout */
+        .main-content {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+        }
+
+        /* Sidebar - Modified to be horizontal at top */
+        .sidebar {
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+            position: sticky;
+            top: 0;
+            z-index: 5;
+            display: flex;
+            justify-content: flex-end;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .sidebar ul {
+            list-style: none;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .sidebar li {
+            position: relative;
+        }
+
+        .sidebar li button {
+            text-align: center;
+            padding: 0.75rem 1.25rem;
+            border-radius: var(--radius);
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-weight: 500;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar li button::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar li button:hover {
+            color: var(--primary);
+            background: rgba(67, 97, 238, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .sidebar li button:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .sidebar li.active button {
+            color: var(--primary);
+            background: rgba(67, 97, 238, 0.1);
+        }
+
+        .sidebar li.active button::before {
+            transform: scaleX(1);
+        }
+
+        .sidebar li i {
+            font-size: 1.25rem;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar li:hover i {
+            transform: scale(1.2);
+        }
+
+        .sidebar li span {
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        /* Feature hover animations - Apply to specific cards for more vibrant effect */
+        .feature-hover {
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+
+        .feature-hover:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Specific colorful hover for cards within card-container */
+        .card-container .card.feature-hover:hover {
+            box-shadow: 0 8px 20px -5px rgba(67, 97, 238, 0.3); /* Primary color shadow */
+            transform: translateY(-5px) scale(1.02);
+            border-color: var(--primary-light);
+        }
+        .dark-mode .card-container .card.feature-hover:hover {
+            box-shadow: 0 8px 20px -5px rgba(72, 149, 239, 0.4); /* Darker primary for dark mode */
+        }
+
+
+        /* Content area */
+        .content-area {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards */
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow);
+            transform: translateY(-2px);
+        }
+
+        .card h3 {
+            margin-bottom: 1.25rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .card h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 3rem;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--primary-light));
+            border-radius: var(--radius-full);
+        }
+
+        /* Task input */
+        .task-input {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .task-input input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+
+        .task-input input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .task-input button {
+            padding: 0 1.5rem;
+            background: linear-gradient(to right, var(--primary), var(--primary-light));
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .task-input button:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+            background: linear-gradient(to right, var(--primary-light), var(--primary));
+        }
+
+        .task-input button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+            transform: skewX(-20deg);
+        }
+
+        .task-input button:hover::before {
+            left: 100%;
+        }
+
+
+        /* Input options */
+        .input-options {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .input-options button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background-color: var(--gray-light);
+            border: none;
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: var(--text-color);
+        }
+
+        .input-options button:hover {
+            background-color: var(--primary-light);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .input-options button i {
+            color: var(--primary);
+            transition: inherit;
+        }
+
+        .input-options button:hover i {
+            color: white;
+        }
+
+        .dark-mode .input-options button {
+            background-color: var(--border-color);
+            color: var(--text-color);
+        }
+
+        .dark-mode .input-options button:hover {
+            background-color: var(--primary-dark);
+            color: white;
+        }
+
+        .dark-mode .input-options button i {
+            color: var(--primary-light);
+        }
+
+        .dark-mode .input-options button:hover i {
+            color: white;
+        }
+
+
+        /* Document upload area */
+        #documentUploadArea {
+            border: 2px dashed var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+
+        #documentUploadArea:hover {
+            border-color: var(--primary);
+            background: rgba(67, 97, 238, 0.08);
+            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.2);
+        }
+
+        #documentUploadArea:hover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            transition: all 0.5s ease;
+            transform: skewX(-20deg);
+        }
+
+        #documentUploadArea:hover::before {
+            left: 100%;
+        }
+
+        .dark-mode #documentUploadArea:hover {
+            background: rgba(72, 149, 239, 0.08);
+            box-shadow: 0 0 0 4px rgba(72, 149, 239, 0.3);
+        }
+
+        .uploaded-file-list {
+            margin-top: 1rem;
+            text-align: left;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .uploaded-file-item {
+            background-color: var(--gray-light);
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius);
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+
+        .dark-mode .uploaded-file-item {
+            background-color: var(--border-color);
+        }
+
+        .uploaded-file-item span {
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: calc(100% - 30px); /* Adjust for icon/button width */
+        }
+
+        .uploaded-file-item i {
+            margin-right: 0.5rem;
+            color: var(--primary);
+        }
+
+
+        /* Card container grid */
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Task list */
+        .task-list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .task-list-header select {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            cursor: pointer;
+        }
+
+        /* Table styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            color: var(--text-light);
+            letter-spacing: 0.05em;
+        }
+
+        /* Priority badges */
+        .priority-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .priority-high {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+
+        .priority-medium {
+            background-color: rgba(234, 179, 8, 0.1);
+            color: #eab308;
+        }
+
+        .priority-low {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+        }
+
+        /* Status badges */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-todo {
+            background-color: rgba(156, 163, 175, 0.1);
+            color: #9ca3af;
+        }
+
+        .status-in-progress {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+
+        .status-completed {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+        }
+
+        /* Action buttons */
+        .action-btn {
+            color: var(--primary);
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-right: 0.5rem;
+            padding: 0.25rem;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+        }
+
+        .action-btn:hover {
+            background: rgba(67, 97, 238, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .action-btn.delete {
+            color: var(--danger);
+        }
+
+        .action-btn.delete:hover {
+            background: rgba(239, 35, 60, 0.1);
+        }
+
+        /* Hover effects on table rows */
+        tbody tr {
+            transition: all 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background-color: rgba(67, 97, 238, 0.05);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1024px) {
+            .sidebar {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar ul {
+                gap: 0.25rem;
+            }
+            
+            .sidebar li button {
+                padding: 0.5rem 0.75rem;
+                min-width: auto;
+            }
+            
+            .sidebar li span {
+                display: none;
+            }
+            
+            .content-area {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .card-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .task-input {
+                flex-direction: column;
+            }
+            
+            .task-input button {
+                width: 100%;
+            }
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        /* Floating action button */
+        .fab {
+            position: fixed;
+            bottom: 2.5rem;
+            right: 2.5rem;
+            width: 3.8rem;
+            height: 3.8rem;
+            border-radius: var(--radius-full);
+            background: linear-gradient(to right, var(--primary), var(--primary-light));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-lg);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 20;
+            font-size: 1.8rem;
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        .fab:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 12px 30px -5px rgba(67, 97, 238, 0.5);
+            background: linear-gradient(to right, var(--primary-light), var(--primary));
+            animation: none;
+        }
+
+        /* Tooltips */
+        [data-tooltip] {
+            position: relative;
+        }
+
+        [data-tooltip]::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--dark);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.875rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        [data-tooltip]:hover::after {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(-0.5rem);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--border-color);
+            border-radius: var(--radius-full);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: var(--radius-full);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000; /* Higher than other content */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .note-modal {
+            background-color: var(--card-bg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            position: relative; /* For close button positioning */
+        }
+
+        .modal-overlay.visible .note-modal {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .note-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .note-modal-header h3 {
+            margin-bottom: 0; /* Override default card h3 margin */
+            padding-bottom: 0; /* Override default card h3 padding */
+        }
+
+        .note-modal-header h3::after {
+            display: none; /* Hide the underline for modal header */
+        }
+
+        .note-modal-close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .note-modal-close-btn:hover {
+            color: var(--danger);
+        }
+
+        .note-modal-body {
+            margin-bottom: 1.5rem;
+        }
+
+        .note-modal-body label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-color);
+            font-size: 0.9rem;
+        }
+
+        .note-modal-body input[type="text"],
+        .note-modal-body input[type="date"],
+        .note-modal-body select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            font-size: 1rem;
+            background-color: var(--bg-color); /* Use general background color */
+            color: var(--text-color);
+            transition: all 0.2s ease;
+            margin-bottom: 1rem;
+        }
+
+        .note-modal-body input[type="text"]:focus,
+        .note-modal-body input[type="date"]:focus,
+        .note-modal-body select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .dark-mode .note-modal-body input,
+        .dark-mode .note-modal-body select {
+            background-color: var(--border-color); /* Darker background in dark mode */
+            border-color: #4a5568;
+        }
+
+        .dark-mode .note-modal-body input:focus,
+        .dark-mode .note-modal-body select:focus {
+            box-shadow: 0 0 0 3px rgba(72, 149, 239, 0.3);
+        }
+
+        .note-modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        .note-modal-footer button {
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .note-modal-footer .btn-cancel {
+            background-color: var(--gray);
+            color: white;
+            border: none;
+        }
+
+        .note-modal-footer .btn-cancel:hover {
+            background-color: #5a6268;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .note-modal-footer .btn-add-task {
+            background: linear-gradient(to right, var(--primary), var(--primary-light));
+            color: white;
+            border: none;
+        }
+
+        .note-modal-footer .btn-add-task:hover {
+            background: linear-gradient(to right, var(--primary-light), var(--primary));
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Custom Alert/Message Box Styles */
+        .message-box-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000; /* Higher than modal */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .message-box-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .message-box {
+            background-color: var(--card-bg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            padding: 2rem;
+            width: 90%;
+            max-width: 400px;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            text-align: center;
+        }
+
+        .message-box-overlay.visible .message-box {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .message-box h4 {
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .message-box p {
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+        }
+
+        .message-box button {
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            background: linear-gradient(to right, var(--primary), var(--primary-light));
+            color: white;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .message-box button:hover {
+            background: linear-gradient(to right, var(--primary-light), var(--primary));
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <h1>Taskify</h1>
+            <div class="header-controls">
+                <button id="themeToggle" data-tooltip="Toggle theme">🌙</button>
+                <button id="userButton" data-tooltip="User profile"><i class="fas fa-user"></i></button>
+                <button id="settingsButton" data-tooltip="Settings"><i class="fas fa-cog"></i></button>
+            </div>
+        </header>
+
+        <!-- Sidebar - Now horizontal at top -->
+        <nav class="sidebar">
+            <ul>
+                <li class="active" data-tab="tasks">
+                    <button class="feature-hover">
+                        <i class="fas fa-tasks"></i>
+                        <span>Task Orchestrator</span>
+                    </button>
+                </li>
+                <li data-tab="ethics">
+                    <button class="feature-hover">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Ethics Guardian</span>
+                    </button>
+                </li>
+                <li data-tab="knowledge">
+                    <button class="feature-hover">
+                        <i class="fas fa-brain"></i>
+                        <span>Knowledge Manager</span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Task Orchestrator Content (default visible) -->
+                <div id="tasks" class="tab-content active">
+                    <h2>Task Orchestrator</h2>
+                    
+                    <!-- Task input section (original, can be kept for direct input if preferred) -->
+                    <div class="card feature-hover">
+                        <h3>Add New Task</h3>
+                        <div class="task-input">
+                            <input type="text" id="newTaskInput" placeholder="Enter task description...">
+                            <button id="addTaskBtn">Add Task</button>
+                        </div>
+                        <div class="input-options">
+                            <button id="voiceInputBtn" data-tooltip="Voice input">
+                                <i class="fas fa-microphone"></i>
+                                <span>Voice Input</span>
+                            </button>
+                            <button id="documentUploadBtn" data-tooltip="Attach files">
+                                <i class="fas fa-file-upload"></i>
+                                <span>Attach Document</span>
+                            </button>
+                        </div>
+                        <div id="documentUploadArea" class="hidden">
+                            <p>Drag & drop files here or click to browse</p>
+                            <input type="file" id="documentFileInput" multiple>
+                            <div class="uploaded-file-list" id="uploadedFileList">
+                                <!-- Uploaded files will be listed here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Task visualization -->
+                    <div class="card-container">
+                        <div class="card feature-hover">
+                            <h3>Task Priority Distribution</h3>
+                            <canvas id="taskPriorityChart"></canvas>
+                        </div>
+                        <div class="card feature-hover">
+                            <h3>Upcoming Deadlines</h3>
+                            <div id="upcomingTasks" class="space-y-3">
+                                <!-- Dynamically populated -->
+                            </div>
+                        </div>
+                        <div class="card feature-hover">
+                            <h3>Meeting Insights</h3>
+                            <div id="meetingInsights" class="space-y-3">
+                                <!-- Dynamically populated -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Task list -->
+                    <div class="card feature-hover">
+                        <div class="task-list-header">
+                            <h3>Your Tasks</h3>
+                            <select id="priorityFilter">
+                                <option value="all">All Priorities</option>
+                                <option value="high">High Priority</option>
+                                <option value="medium">Medium Priority</option>
+                                <option value="low">Low Priority</option>
+                            </select>
+                        </div>
+                        <table id="taskTable">
+                            <thead>
+                                <tr>
+                                    <th>Task</th>
+                                    <th>Priority</th>
+                                    <th>Due Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="taskList">
+                                <!-- Dynamically populated -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Other tab contents -->
+                <div id="ethics" class="tab-content">
+                    <h2>Ethics Guardian</h2>
+                    <div class="card feature-hover">
+                        <h3>Coming Soon</h3>
+                        <p>Ethics monitoring features will be available in the next update.</p>
+                    </div>
+                </div>
+
+                <div id="knowledge" class="tab-content">
+                    <h2>Knowledge Manager</h2>
+                    <div class="card feature-hover">
+                        <h3>Coming Soon</h3>
+                        <p>Knowledge management features will be available in the next update.</p>
+                    </div>
+                </div>
+
+                <div id="settings" class="tab-content">
+                    <h2>Settings</h2>
+                    <div class="card feature-hover">
+                        <h3>Application Settings</h3>
+                        <p>Adjust your preferences here.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Action Button -->
+    <button class="fab" id="quickAddBtn" data-tooltip="Quick add task">
+        <i class="fas fa-plus"></i>
+    </button>
+
+    <!-- Note Screen Modal -->
+    <div id="noteModalOverlay" class="modal-overlay">
+        <div class="note-modal" id="noteModal">
+            <div class="note-modal-header">
+                <h3>Add New Task</h3>
+                <button class="note-modal-close-btn" id="closeNoteModalBtn"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="note-modal-body">
+                <label for="modalTaskTitle">Task Description</label>
+                <input type="text" id="modalTaskTitle" placeholder="e.g., Prepare Q4 sales report">
+
+                <label for="modalTaskPriority">Priority</label>
+                <select id="modalTaskPriority">
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                    <option value="low">Low</option>
+                </select>
+
+                <label for="modalTaskDueDate">Due Date</label>
+                <input type="date" id="modalTaskDueDate">
+            </div>
+            <div class="note-modal-footer">
+                <button class="btn-cancel" id="cancelNoteModalBtn">Cancel</button>
+                <button class="btn-add-task" id="addTaskFromModalBtn">Add Task</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Message Box for Alerts -->
+    <div id="messageBoxOverlay" class="message-box-overlay">
+        <div class="message-box">
+            <h4 id="messageBoxTitle"></h4>
+            <p id="messageBoxContent"></p>
+            <button id="messageBoxOkBtn">OK</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // DOM Elements
+        const themeToggle = document.getElementById('themeToggle');
+        const userButton = document.getElementById('userButton');
+        const settingsButton = document.getElementById('settingsButton');
+        const sidebarItems = document.querySelectorAll('.sidebar li');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const newTaskInput = document.getElementById('newTaskInput'); // Original input
+        const addTaskBtn = document.getElementById('addTaskBtn'); // Original add button
+        const voiceInputBtn = document.getElementById('voiceInputBtn');
+        const documentUploadBtn = document.getElementById('documentUploadBtn');
+        const documentUploadArea = document.getElementById('documentUploadArea');
+        const documentFileInput = document.getElementById('documentFileInput'); // New: File input for document upload
+        const uploadedFileList = document.getElementById('uploadedFileList'); // New: Div to list uploaded files
+        const priorityFilter = document.getElementById('priorityFilter');
+        const taskList = document.getElementById('taskList');
+        const upcomingTasks = document.getElementById('upcomingTasks');
+        const meetingInsights = document.getElementById('meetingInsights');
+        const quickAddBtn = document.getElementById('quickAddBtn');
+
+        // Modal Elements
+        const noteModalOverlay = document.getElementById('noteModalOverlay');
+        const noteModal = document.getElementById('noteModal');
+        const closeNoteModalBtn = document.getElementById('closeNoteModalBtn');
+        const cancelNoteModalBtn = document.getElementById('cancelNoteModalBtn');
+        const addTaskFromModalBtn = document.getElementById('addTaskFromModalBtn');
+        const modalTaskTitleInput = document.getElementById('modalTaskTitle');
+        const modalTaskPrioritySelect = document.getElementById('modalTaskPriority');
+        const modalTaskDueDateInput = document.getElementById('modalTaskDueDate');
+
+        // Message Box Elements
+        const messageBoxOverlay = document.getElementById('messageBoxOverlay');
+        const messageBoxTitle = document.getElementById('messageBoxTitle');
+        const messageBoxContent = document.getElementById('messageBoxContent');
+        const messageBoxOkBtn = document.getElementById('messageBoxOkBtn');
+
+        // Speech Recognition variables
+        let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        let recognition = null;
+        let isListening = false;
+
+        if (SpeechRecognition) {
+            recognition = new SpeechRecognition();
+            recognition.continuous = false; // Only listen for a single utterance for a quick task
+            recognition.interimResults = false; // We only care about the final result for a task
+            recognition.lang = 'en-US'; // Set language
+
+            recognition.onstart = function() {
+                isListening = true;
+                voiceInputBtn.innerHTML = '<i class="fas fa-microphone-slash"></i> <span>Listening...</span>';
+                voiceInputBtn.style.background = 'linear-gradient(to right, #ef4444, #dc2626)';
+                voiceInputBtn.classList.add('pulse'); // Add pulse animation when listening
+            };
+
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                newTaskInput.value = transcript; // Put transcribed text into the input field
+                voiceInputBtn.innerHTML = '<i class="fas fa-microphone"></i> <span>Voice Input</span>'; // Reset button text
+                voiceInputBtn.style.background = ''; // Reset button background
+                voiceInputBtn.classList.remove('pulse'); // Remove pulse animation
+                isListening = false; // Reset listening state
+
+                // Automatically add the task after a short delay if transcription is successful
+                if (transcript.trim() !== '') {
+                     addTask(transcript, 'medium', new Date().toISOString().split('T')[0]); // Default priority and today's date
+                }
+            };
+
+            recognition.onerror = function(event) {
+                console.error('Speech recognition error:', event.error);
+                let title = 'Voice Input Error';
+                let content = 'Speech recognition failed. Please ensure your microphone is enabled.';
+                if (event.error === 'not-allowed') {
+                    content = 'Microphone access denied. Please grant microphone permissions in your browser settings to use voice input.';
+                } else if (event.error === 'no-speech') {
+                    content = 'No speech detected. Please try again and speak clearly into your microphone.';
+                } else if (event.error === 'network') {
+                    content = 'Network error. Please check your internet connection.';
+                }
+                showMessageBox(title, content); // Use custom message box instead of alert
+                voiceInputBtn.innerHTML = '<i class="fas fa-microphone"></i> <span>Voice Input</span>'; // Reset button text
+                voiceInputBtn.style.background = ''; // Reset button background
+                voiceInputBtn.classList.remove('pulse'); // Remove pulse animation
+                isListening = false; // Reset listening state
+            };
+
+            recognition.onend = function() {
+                // This fires even on successful recognition, so only reset if not re-triggered
+                if (isListening) { // This check prevents flickering if continuous is true
+                    voiceInputBtn.innerHTML = '<i class="fas fa-microphone"></i> <span>Voice Input</span>';
+                    voiceInputBtn.style.background = '';
+                    voiceInputBtn.classList.remove('pulse');
+                    isListening = false;
+                }
+            };
+        } else {
+            console.warn('Web Speech API is not supported by this browser.');
+            voiceInputBtn.disabled = true;
+            voiceInputBtn.innerHTML = '<i class="fas fa-microphone-slash"></i> <span>Not Supported</span>';
+            voiceInputBtn.setAttribute('data-tooltip', 'Speech recognition not supported');
+            voiceInputBtn.style.cursor = 'not-allowed';
+            voiceInputBtn.style.opacity = '0.6';
+        }
+
+
+        // Sample tasks data
+        let tasks = [
+            { id: 1, title: 'Complete Q3 budget report', priority: 'high', due: '2023-11-30', status: 'in-progress' },
+            { id: 2, title: 'Review vendor contracts', priority: 'medium', due: '2023-11-15', status: 'todo' },
+            { id: 3, title: 'Team sync meeting', priority: 'low', due: '2023-11-10', status: 'completed' },
+            { id: 4, title: 'Prepare client presentation', priority: 'high', due: '2023-11-20', status: 'todo' },
+            { id: 5, title: 'Update project documentation', priority: 'medium', due: '2023-11-25', status: 'in-progress' },
+        ];
+
+        // Mock meeting insights data
+        let meetingData = [
+            { id: 1, title: 'Weekly Stand-up', date: '2023-11-06', attendees: ['Alice', 'Bob'], actionItems: ['Follow up on design feedback', 'Schedule sprint review'], keyDecisions: ['Proceed with Feature X MVP'] },
+            { id: 2, title: 'Client Demo Prep', date: '2023-11-07', attendees: ['Charlie', 'Dana'], actionItems: ['Refine presentation slides'], keyDecisions: ['Focus on core features for demo'] },
+            { id: 3, title: 'Product Brainstorm', date: '2023-11-08', attendees: ['Eve', 'Frank'], actionItems: ['Research competitor A', 'Draft user story for Feature Y'], keyDecisions: ['Explore AI integration possibilities'] }
+        ];
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set up event listeners
+            themeToggle.addEventListener('click', toggleTheme);
+            userButton.addEventListener('click', showUserProfile);
+            settingsButton.addEventListener('click', () => switchTab('settings'));
+            
+            sidebarItems.forEach(item => {
+                item.addEventListener('click', () => switchTab(item.dataset.tab));
+            });
+            
+            // Original addTaskBtn for the main input
+            addTaskBtn.addEventListener('click', () => addTask(newTaskInput.value, 'medium', new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]));
+            newTaskInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') addTask(newTaskInput.value, 'medium', new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]);
+            });
+            
+            voiceInputBtn.addEventListener('click', handleVoiceInput); // This now triggers speech recognition
+            documentUploadBtn.addEventListener('click', toggleDocumentUpload);
+            documentFileInput.addEventListener('change', handleDocumentUpload); // New: Handle file selection
+            priorityFilter.addEventListener('change', filterTasks);
+
+            // New: Quick Add Button now opens the modal
+            quickAddBtn.addEventListener('click', openNoteModal);
+
+            // Modal Event Listeners
+            closeNoteModalBtn.addEventListener('click', closeNoteModal);
+            cancelNoteModalBtn.addEventListener('click', closeNoteModal);
+            noteModalOverlay.addEventListener('click', (e) => {
+                if (e.target === noteModalOverlay) {
+                    closeNoteModal();
+                }
+            });
+            addTaskFromModalBtn.addEventListener('click', addTaskFromModal);
+            
+            // Set default due date for modal to one week from today
+            const today = new Date();
+            const oneWeekLater = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+            modalTaskDueDateInput.value = oneWeekLater.toISOString().split('T')[0];
+
+            // Global escape key listener for modal and message box
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    if (noteModalOverlay.classList.contains('visible')) {
+                        closeNoteModal();
+                    } else if (messageBoxOverlay.classList.contains('visible')) {
+                        closeMessageBox();
+                    }
+                }
+            });
+
+            // Message Box Event Listener
+            messageBoxOkBtn.addEventListener('click', closeMessageBox);
+
+            // Initialize charts and content
+            renderTaskPriorityChart();
+            renderUpcomingTasks();
+            renderMeetingInsights();
+            renderTaskList();
+        });
+
+        // Theme toggle
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            themeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '�';
+            
+            // Re-render charts to update their theme
+            renderTaskPriorityChart();
+        }
+
+        // User profile
+        function showUserProfile() {
+            // Using a custom message box instead of alert
+            showMessageBox('User Profile', 'User profile functionality will be available in a future update!');
+        }
+
+        // Tab switching
+        function switchTab(tabName) {
+            // Update sidebar active item - only for actual sidebar tabs
+            sidebarItems.forEach(item => {
+                item.classList.toggle('active', item.dataset.tab === tabName);
+            });
+            
+            // Show the selected tab content
+            tabContents.forEach(content => {
+                content.classList.toggle('active', content.id === tabName);
+            });
+        }
+
+        // Task functions (modified to accept params for reusability)
+        function addTask(title, priority, due) {
+            const taskText = title.trim();
+            if (taskText) {
+                const newTask = {
+                    id: Date.now(),
+                    title: taskText,
+                    priority: priority,
+                    due: due,
+                    status: 'todo'
+                };
+                tasks.push(newTask);
+                
+                // If adding from main input, clear it
+                if (newTaskInput.value === title) { // Check if the title came from this input
+                    newTaskInput.value = '';
+                }
+                
+                renderTaskList();
+                renderTaskPriorityChart();
+                renderUpcomingTasks();
+            }
+        }
+
+        // New function to add task from modal
+        function addTaskFromModal() {
+            const title = modalTaskTitleInput.value;
+            const priority = modalTaskPrioritySelect.value;
+            const due = modalTaskDueDateInput.value;
+
+            if (title.trim() === '') {
+                showMessageBox('Input Error', 'Task description cannot be empty!');
+                return;
+            }
+
+            addTask(title, priority, due);
+            closeNoteModal();
+            modalTaskTitleInput.value = ''; // Clear modal input after adding
+            modalTaskPrioritySelect.value = 'medium'; // Reset priority
+            // Reset due date to one week from today for next time
+            const today = new Date();
+            const oneWeekLater = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+            modalTaskDueDateInput.value = oneWeekLater.toISOString().split('T')[0];
+        }
+
+        // Voice Input handler
+        function handleVoiceInput() {
+            if (!recognition) {
+                showMessageBox('Browser Not Supported', 'Speech recognition is not supported in your browser.');
+                return;
+            }
+
+            if (isListening) {
+                recognition.stop();
+            } else {
+                try {
+                    recognition.start();
+                } catch (error) {
+                    console.error('Error starting speech recognition:', error);
+                    showMessageBox('Voice Input Error', 'Could not start speech recognition. Please ensure your microphone is available and permissions are granted.');
+                    // Reset UI immediately if starting fails
+                    voiceInputBtn.innerHTML = '<i class="fas fa-microphone"></i> <span>Voice Input</span>';
+                    voiceInputBtn.style.background = '';
+                    voiceInputBtn.classList.remove('pulse');
+                    isListening = false;
+                }
+            }
+        }
+
+        // Document Upload Handlers
+        function handleDocumentUpload(event) {
+            uploadedFileList.innerHTML = ''; // Clear previous list
+            const files = event.target.files;
+            if (files.length === 0) {
+                uploadedFileList.innerHTML = '<p class="text-light">No files selected.</p>';
+                uploadedFileList.style.display = 'none';
+                return;
+            }
+            uploadedFileList.style.display = 'block';
+
+            Array.from(files).forEach(file => {
+                const fileItem = document.createElement('div');
+                fileItem.classList.add('uploaded-file-item');
+                
+                let iconClass = 'fas fa-file'; // Default icon
+                if (file.type.includes('image')) {
+                    iconClass = 'fas fa-image';
+                } else if (file.type.includes('pdf')) {
+                    iconClass = 'fas fa-file-pdf';
+                } else if (file.type.includes('word')) {
+                    iconClass = 'fas fa-file-word';
+                } else if (file.type.includes('excel')) {
+                    iconClass = 'fas fa-file-excel';
+                } else if (file.type.includes('presentation')) {
+                    iconClass = 'fas fa-file-powerpoint';
+                } else if (file.type.includes('text')) {
+                    iconClass = 'fas fa-file-alt';
+                }
+
+                fileItem.innerHTML = `<i class="${iconClass}"></i> <span>${file.name} (${(file.size / 1024).toFixed(2)} KB)</span>`;
+                uploadedFileList.appendChild(fileItem);
+
+                // Optional: Read and display content for text files
+                if (file.type.startsWith('text/') || file.type === 'application/json') {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const contentSnippet = e.target.result.substring(0, 100) + (e.target.result.length > 100 ? '...' : '');
+                        const snippetElement = document.createElement('p');
+                        snippetElement.textContent = `Content snippet: "${contentSnippet}"`;
+                        snippetElement.style.fontSize = '0.8rem';
+                        snippetElement.style.color = 'var(--text-light)';
+                        snippetElement.style.marginTop = '0.5rem';
+                        fileItem.appendChild(snippetElement);
+                    };
+                    reader.readAsText(file);
+                }
+            });
+            showMessageBox('Files Attached', `Successfully attached ${files.length} file(s). (Note: Actual file upload to a server requires backend integration.)`);
+        }
+
+        function toggleDocumentUpload() {
+            documentUploadArea.classList.toggle('hidden');
+            // If showing, clear previous files when opening
+            if (!documentUploadArea.classList.contains('hidden')) {
+                uploadedFileList.innerHTML = '';
+                documentFileInput.value = ''; // Clear input to allow selecting same file again
+                uploadedFileList.style.display = 'none'; // Hide list if no files selected
+            }
+        }
+
+        function filterTasks() {
+            renderTaskList();
+        }
+
+        function deleteTask(taskId) {
+            tasks = tasks.filter(task => task.id !== taskId);
+            renderTaskList();
+            renderTaskPriorityChart();
+            renderUpcomingTasks();
+        }
+
+        function editTask(taskId) {
+            const task = tasks.find(t => t.id === taskId);
+            if (task) {
+                showMessageBox('Edit Task', `Editing task: "${task.title}". In a full app, a dedicated edit modal would appear here.`);
+            }
+        }
+
+        function toggleTaskStatus(taskId) {
+            const taskIndex = tasks.findIndex(t => t.id === taskId);
+            if (taskIndex !== -1) {
+                tasks[taskIndex].status = (tasks[taskIndex].status === 'completed') ? 'todo' : 'completed';
+                renderTaskList();
+                renderUpcomingTasks(); // Re-render upcoming tasks as status might change visibility
+                renderTaskPriorityChart(); // Re-render chart if status affects active tasks
+            }
+        }
+
+        // Modal Functions
+        function openNoteModal() {
+            noteModalOverlay.classList.add('visible');
+            modalTaskTitleInput.focus(); // Focus input when modal opens
+        }
+
+        function closeNoteModal() {
+            noteModalOverlay.classList.remove('visible');
+            // Clear modal inputs when closing
+            modalTaskTitleInput.value = '';
+            modalTaskPrioritySelect.value = 'medium';
+            const today = new Date();
+            const oneWeekLater = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+            modalTaskDueDateInput.value = oneWeekLater.toISOString().split('T')[0];
+        }
+
+        // Custom Message Box Functions
+        function showMessageBox(title, content) {
+            messageBoxTitle.textContent = title;
+            messageBoxContent.textContent = content;
+            messageBoxOverlay.classList.add('visible');
+        }
+
+        function closeMessageBox() {
+            messageBoxOverlay.classList.remove('visible');
+        }
+
+        // Rendering functions
+        function renderTaskList() {
+            const filterValue = priorityFilter.value;
+            const filteredTasks = filterValue === 'all' 
+                ? tasks 
+                : tasks.filter(task => task.priority === filterValue);
+            
+            taskList.innerHTML = filteredTasks.map(task => `
+                <tr>
+                    <td>${task.title}</td>
+                    <td><span class="priority-badge priority-${task.priority}">${task.priority}</span></td>
+                    <td>${task.due}</td>
+                    <td><span class="status-badge status-${task.status}">${task.status.replace('-', ' ')}</span></td>
+                    <td>
+                        <button class="action-btn" onclick="toggleTaskStatus(${task.id})" data-tooltip="${task.status === 'completed' ? 'Mark as ToDo' : 'Mark as Complete'}">
+                            <i class="fas fa-check-circle" style="color: ${task.status === 'completed' ? 'var(--primary)' : 'var(--gray)'};"></i>
+                        </button>
+                        <button class="action-btn" onclick="editTask(${task.id})" data-tooltip="Edit">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="action-btn delete" onclick="deleteTask(${task.id})" data-tooltip="Delete">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderUpcomingTasks() {
+            const upcoming = tasks
+                .filter(t => t.status !== 'completed' && new Date(t.due) >= new Date()) // Only active tasks due today or in future
+                .sort((a, b) => new Date(a.due) - new Date(b.due))
+                .slice(0, 3); // Show top 3 upcoming
+
+            if (upcoming.length === 0) {
+                upcomingTasks.innerHTML = '<p class="text-light text-center p-4">No upcoming tasks! Enjoy your break. 🎉</p>';
+                return;
+            }
+            
+            upcomingTasks.innerHTML = upcoming.map(task => `
+                <div class="task-item p-3 border rounded-lg hover:shadow-md transition bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900 dark:to-indigo-900">
+                    <div class="flex justify-between items-center">
+                        <span class="font-medium text-blue-800 dark:text-blue-200">${task.title}</span>
+                        <span class="priority-badge priority-${task.priority}">${task.priority}</span>
+                    </div>
+                    <div class="flex justify-between items-center mt-2 text-sm">
+                        <span class="text-gray-600 dark:text-gray-400">Due: ${task.due}</span>
+                        <button class="action-btn text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-200" onclick="toggleTaskStatus(${task.id})" data-tooltip="Mark as Complete">
+                            <i class="fas fa-check-square"></i> Mark Complete
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderMeetingInsights() {
+            if (meetingData.length === 0) {
+                meetingInsights.innerHTML = '<p class="text-light text-center p-4">No meeting insights available yet.</p>';
+                return;
+            }
+
+            meetingInsights.innerHTML = meetingData.map(meeting => `
+                <div class="insight-item p-3 rounded-lg bg-gradient-to-br from-green-50 to-teal-50 dark:from-green-900 dark:to-teal-900 border border-green-200 dark:border-teal-700">
+                    <h4 class="font-semibold text-green-800 dark:text-green-200">${meeting.title} <span class="text-xs text-gray-500 dark:text-gray-400 ml-2">(${meeting.date})</span></h4>
+                    <p class="text-sm text-gray-700 dark:text-gray-300">Attendees: ${meeting.attendees.join(', ')}</p>
+                    ${meeting.actionItems.length > 0 ? `<p class="text-sm mt-2 text-gray-700 dark:text-gray-300"><strong>Action Items:</strong></p>
+                        <ul class="list-disc list-inside text-sm text-gray-700 dark:text-gray-300 ml-4">
+                            ${meeting.actionItems.map(item => `<li>${item}</li>`).join('')}
+                        </ul>` : ''}
+                    ${meeting.keyDecisions.length > 0 ? `<p class="text-sm mt-2 text-gray-700 dark:text-gray-300"><strong>Key Decisions:</strong></p>
+                        <ul class="list-disc list-inside text-sm text-gray-700 dark:text-gray-300 ml-4">
+                            ${meeting.keyDecisions.map(item => `<li>${item}</li>`).join('')}
+                        </ul>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function renderTaskPriorityChart() {
+            const ctx = document.getElementById('taskPriorityChart').getContext('2d');
+            
+            // Destroy previous chart if it exists and is a valid Chart instance
+            if (window.taskPriorityChart && typeof window.taskPriorityChart.destroy === 'function') {
+                window.taskPriorityChart.destroy();
+            }
+            
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            const bgColors = isDarkMode 
+                ? ['#7f1d1d', '#78350f', '#14532d'] 
+                : ['rgba(239, 68, 68, 0.7)', 'rgba(234, 179, 8, 0.7)', 'rgba(16, 185, 129, 0.7)'];
+            const borderColors = isDarkMode 
+                ? ['#fecaca', '#fde68a', '#bbf7d0'] 
+                : ['rgba(239, 68, 68, 1)', 'rgba(234, 179, 8, 1)', 'rgba(16, 185, 129, 1)'];
+            
+            window.taskPriorityChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['High', 'Medium', 'Low'],
+                    datasets: [{
+                        data: [
+                            tasks.filter(t => t.priority === 'high').length,
+                            tasks.filter(t => t.priority === 'medium').length,
+                            tasks.filter(t => t.priority === 'low').length
+                        ],
+                        backgroundColor: bgColors,
+                        borderColor: borderColors,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                color: isDarkMode ? '#f3f4f6' : '#111827',
+                                font: {
+                                    family: 'Inter'
+                                }
+                            }
+                        }
+                    },
+                    cutout: '70%',
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
