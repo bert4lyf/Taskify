@@ -980,6 +980,102 @@
             transform: translateY(-1px);
             box-shadow: var(--shadow-sm);
         }
+        /* Header */
+.app-header {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow);
+  position: relative;
+  z-index: 10;
+  transition: background 0.3s ease; /* Added for hover effect */
+}
+
+.app-header:hover {
+  background: linear-gradient(
+    135deg,
+    var(--primary-light),
+    var(--primary)
+  ); /* Lighter gradient on hover */
+}
+
+/* Document upload area */
+#documentUploadArea {
+  border: 2px dashed var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  text-align: center;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+  overflow: hidden; /* Ensure content stays within bounds on hover */
+  position: relative;
+  cursor: pointer; /* Indicate it's clickable/interactive */
+}
+
+#documentUploadArea:hover {
+  border-color: var(--primary);
+  background: rgba(67, 97, 238, 0.08); /* Slightly more prominent background on hover */
+  box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.2); /* Soft primary glow */
+}
+
+/* Add a pseudo-element for a subtle shine effect on hover */
+#documentUploadArea:hover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.05); /* Subtle white overlay */
+  transition: all 0.5s ease;
+  transform: skewX(-20deg);
+}
+
+#documentUploadArea:hover::before {
+  left: 100%;
+}
+
+/* Dark mode adjustments for document upload area */
+.dark-mode #documentUploadArea:hover {
+  background: rgba(72, 149, 239, 0.08);
+  box-shadow: 0 0 0 4px rgba(72, 149, 239, 0.3);
+}
+
+/* Floating action button */
+.fab {
+  position: fixed; /* Changed from absolute to fixed */
+  bottom: 2.5rem; /* Increased bottom spacing */
+  right: 2.5rem; /* Increased right spacing */
+  width: 3.8rem; /* Slightly larger for presence */
+  height: 3.8rem;
+  border-radius: var(--radius-full);
+  background: linear-gradient(to right, var(--primary), var(--primary-light));
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-lg);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 20;
+  font-size: 1.8rem; /* Larger icon */
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; /* Continuous pulse */
+}
+
+.fab:hover {
+  transform: translateY(-5px) scale(1.1); /* More pronounced lift and scale */
+  box-shadow: 0 12px 30px -5px rgba(67, 97, 238, 0.5); /* Stronger, more vibrant shadow */
+  background: linear-gradient(
+    to right,
+    var(--primary-light),
+    var(--primary)
+  ); /* Shift gradient on hover */
+  animation: none; /* Stop pulse on hover */
+}
     </style>
 </head>
 <body>
