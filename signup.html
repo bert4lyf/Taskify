@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up for Taskify.AI</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Custom styles to refine Tailwind or add specific elements */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Animated gradient background */
+            background: linear-gradient(-45deg, #f0f2f5, #e0e5ea, #d1d6dc, #c2c7cd);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+            overflow-x: hidden; /* Prevent horizontal scroll due to animations */
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Overall container to match the light grey background from Figma */
+        .auth-master-container {
+            background-color: #f0f2f5; 
+            padding: 20px; /* Adjust padding around the whole grid */
+            border-radius: 1rem;
+            width: 100%; /* Ensure it takes full width within body padding */
+            max-width: 500px; /* Max width for single card layout */
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1); /* Slightly more prominent shadow */
+        }
+
+        /* Card styling for login/signup forms */
+        .auth-card {
+            background-color: #ffffff;
+            border-radius: 1rem; /* Rounded corners */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+            padding: 2.5rem; /* Padding inside the card */
+            max-width: 450px; /* Max width for each card, adjusted for single card view */
+            width: 100%;
+            transition: all 0.3s ease-in-out;
+            border: 1px solid #e5e7eb; /* Subtle border matching Figma */
+        }
+
+        /* Headers and sub-headers */
+        .auth-card h2 {
+            font-size: 1.875rem; /* ~30px */
+            font-weight: 600; /* Semi-bold */
+            color: #1a202c; /* Dark text */
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .auth-card .subtext {
+            font-size: 0.9375rem; /* ~15px */
+            color: #6b7280; /* Medium gray */
+            margin-bottom: 1.5rem; /* Spacing before form */
+        }
+
+        .auth-card .subtext a {
+            color: #3b82f6; /* Blue link */
+            font-weight: 500;
+            text-decoration: none; /* No underline by default */
+        }
+        .auth-card .subtext a:hover {
+            text-decoration: underline;
+        }
+
+        /* Input field styling */
+        .input-group {
+            margin-bottom: 1.25rem; /* Spacing between input groups */
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.875rem; /* ~14px */
+            font-weight: 500; /* Medium font weight */
+            color: #4b5563; /* Darker gray for labels */
+            margin-bottom: 0.5rem;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 0.875rem 1rem; /* ~14px vertical, 16px horizontal */
+            border: 1px solid #d1d5db; /* Light gray border */
+            border-radius: 0.5rem; /* 8px rounded corners */
+            font-size: 1rem; /* Default text size */
+            color: #374151; /* Dark text for inputs */
+            background-color: #f9fafb; /* Very light background for inputs */
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .input-wrapper input:focus {
+            outline: none;
+            border-color: #3b82f6; /* Blue on focus */
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); /* Blue shadow on focus */
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #6b7280; /* Gray icon */
+            cursor: pointer;
+            font-size: 0.9rem; /* ~14px */
+            transition: color 0.2s;
+            padding: 0.25rem; /* Make clickable area larger */
+        }
+
+        .password-toggle:hover {
+            color: #374151; /* Darker gray on hover */
+        }
+
+        /* Password hint text */
+        .password-hint {
+            font-size: 0.75rem; /* ~12px */
+            color: #6b7280; /* Medium gray */
+            margin-top: 0.5rem;
+        }
+
+        /* Terms and Privacy Policy text */
+        .terms-privacy-text {
+            font-size: 0.75rem; /* ~12px */
+            color: #6b7280;
+            text-align: center;
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.4;
+        }
+
+        .terms-privacy-text a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+        .terms-privacy-text a:hover {
+            text-decoration: underline;
+        }
+
+        /* Primary button styling */
+        .btn-primary {
+            width: 100%;
+            padding: 0.85rem 1.5rem;
+            background: linear-gradient(to right, #4361ee, #4895ef); /* Blue gradient */
+            color: white;
+            border: none;
+            border-radius: 0.75rem; /* More rounded button */
+            font-weight: 600; /* Semi-bold */
+            font-size: 1rem; /* Default text size */
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(67, 97, 238, 0.2); /* Soft shadow */
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(to right, #4895ef, #4361ee); /* Reverse gradient on hover */
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.4); /* Stronger shadow on hover */
+            transform: translateY(-3px); /* More significant lift */
+        }
+        
+        /* Social login buttons */
+        .btn-social-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem; /* Space between social buttons */
+        }
+
+        .btn-social {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem; /* Space between icon and text */
+            width: 100%;
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.75rem; /* More rounded */
+            font-weight: 500; /* Medium font weight */
+            font-size: 0.95rem; /* ~15px */
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid #d1d5db; /* Light border for all */
+            background-color: #ffffff; /* White background for all */
+            color: #374151; /* Dark text by default */
+        }
+
+        .btn-social i {
+            font-size: 1.2rem; /* ~19px */
+        }
+
+        .btn-social.trello {
+            background-color: #1877f2;
+            color: white;
+            border-color: #1877f2;
+        }
+        .btn-social.trello:hover {
+            background-color: #166fe5;
+            box-shadow: 0 4px 8px rgba(24, 119, 242, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .btn-social.google {
+            border-color: #a0a0a0;
+        }
+        .btn-social.google:hover {
+            background-color: #f0f0f0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            transform: translateY(-1px);
+        }
+
+        .btn-social.slack {
+            background-color: #000000;
+            color: white;
+            border-color: #000000;
+        }
+        .btn-social.slack:hover {
+            background-color: #333333;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            transform: translateY(-1px);
+        }
+
+        /* Separator line with text */
+        .or-separator {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 1.75rem 0; /* Adjusted margin to match Figma */
+            color: #6b7280;
+            font-size: 0.85rem;
+        }
+
+        .or-separator::before,
+        .or-separator::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .or-separator:not(:empty)::before {
+            margin-right: .75em;
+        }
+
+        .or-separator:not(:empty)::after {
+            margin-left: .75em;
+        }
+
+        /* Custom Message Box CSS */
+        .message-box-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .message-box-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .message-box {
+            background-color: #ffffff; /* Card background color */
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+            width: 90%;
+            max-width: 400px;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            text-align: center;
+            color: #1e293b; /* Text color */
+        }
+        .message-box-overlay.visible .message-box {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .message-box h4 {
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        .message-box p {
+            margin-bottom: 1.5rem;
+            color: #64748b; /* Lighter text color */
+        }
+        .message-box button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            background: linear-gradient(to right, #4361ee, #4895ef);
+            color: white;
+            border: none;
+            transition: all 0.2s ease;
+        }
+        .message-box button:hover {
+            background: linear-gradient(to right, #4895ef, #4361ee);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="auth-master-container">
+        <!-- Signup Page -->
+        <div id="signupPage" class="auth-card">
+            <h2 class="text-3xl font-bold text-center text-gray-800">Create an account</h2>
+            <p class="subtext text-center">
+                Already have an account? 
+                <a href="./login.html">Log in</a> <!-- Link to a separate signin.html -->
+            </p>
+
+            <form id="signupForm" class="space-y-4">
+                <div class="input-group">
+                    <label for="signupName">What should we call you?</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="signupName" placeholder="Enter your name" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="signupEmail">What's your email?</label>
+                    <div class="input-wrapper">
+                        <input type="email" id="signupEmail" placeholder="Enter your email address" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="signupPassword">Create a password</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="signupPassword" placeholder="Enter your password" required>
+                        <button type="button" class="password-toggle" data-target="signupPassword">
+                            <i class="far fa-eye"></i> Hide
+                        </button>
+                    </div>
+                    <p class="password-hint">
+                        Use 8 or more characters with a mix of letters, numbers & symbols.
+                    </p>
+                </div>
+
+                <p class="terms-privacy-text">
+                    By creating an account, you agree to the <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>.
+                </p>
+
+                <button type="submit" class="btn-primary">Create an account</button>
+            </form>
+
+            <div class="or-separator">OR Continue with</div>
+
+            <div class="btn-social-group">
+                <button class="btn-social trello">
+                    <i class="fab fa-trello"></i> Continue with Trello
+                </button>
+                <button class="btn-social google">
+                    <i class="fab fa-google"></i> Continue with Google
+                </button>
+                <button class="btn-social slack">
+                    <i class="fab fa-slack"></i> Continue with Slack
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const signupForm = document.getElementById('signupForm');
+        const passwordToggles = document.querySelectorAll('.password-toggle');
+
+        // Function to toggle password visibility
+        function togglePasswordVisibility(targetId) {
+            const passwordInput = document.getElementById(targetId);
+            // Select the icon element directly within the button
+            const toggleButtonIcon = document.querySelector(`.password-toggle[data-target="${targetId}"] i`);
+            // Select the text node or the button itself to change text content
+            const toggleButtonTextContainer = document.querySelector(`.password-toggle[data-target="${targetId}"]`);
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleButtonIcon.classList.remove('fa-eye');
+                toggleButtonIcon.classList.add('fa-eye-slash');
+                // Update the button's inner HTML to change both icon and text
+                toggleButtonTextContainer.innerHTML = '<i class="far fa-eye-slash"></i> Show';
+            } else {
+                passwordInput.type = 'password';
+                toggleButtonIcon.classList.remove('fa-eye-slash');
+                toggleButtonIcon.classList.add('fa-eye');
+                // Update the button's inner HTML to change both icon and text
+                toggleButtonTextContainer.innerHTML = '<i class="far fa-eye"></i> Hide';
+            }
+        }
+
+        // Event Listeners for Password Toggles
+        passwordToggles.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetId = button.dataset.target;
+                togglePasswordVisibility(targetId);
+            });
+        });
+
+        // Form Submission Handler (for demonstration)
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            
+            console.log('Signup Attempt:');
+            console.log('Name:', name);
+            console.log('Email:', email);
+            console.log('Password:', password);
+            showMessageBox('Signup Submitted', 'Signup form submitted successfully! (Check console for data)<br><br>Note: Actual user authentication requires a backend service.', () => {
+                signupForm.reset();
+                // Since this is a standalone signup page, we might redirect or show a success message
+                // For demonstration, we'll just close the message box.
+            });
+        });
+
+        // Handle social login buttons (for demonstration)
+        document.querySelectorAll('.btn-social').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const provider = e.currentTarget.textContent.replace('Continue with ', '').trim();
+                showMessageBox('Social Login', `Attempting to sign in with ${provider}.<br><br>Note: Actual social login (OAuth) requires backend integration and cannot be fully demonstrated here.`, () => {
+                    // Optional: You could redirect or perform other client-side actions after the user acknowledges
+                });
+            });
+        });
+
+        // Custom Message Box Functions 
+        const messageBoxOverlay = document.createElement('div');
+        messageBoxOverlay.id = 'messageBoxOverlay';
+        messageBoxOverlay.classList.add('message-box-overlay');
+        document.body.appendChild(messageBoxOverlay);
+
+        const messageBox = document.createElement('div');
+        messageBox.classList.add('message-box');
+        messageBox.innerHTML = `
+            <h4 id="messageBoxTitle"></h4>
+            <p id="messageBoxContent"></p>
+            <button id="messageBoxOkBtn">OK</button>
+        `;
+        messageBoxOverlay.appendChild(messageBox);
+
+        const messageBoxTitle = messageBox.querySelector('#messageBoxTitle');
+        const messageBoxContent = messageBox.querySelector('#messageBoxContent');
+        const messageBoxOkBtn = messageBox.querySelector('#messageBoxOkBtn');
+        let messageBoxCallback = null; 
+
+        messageBoxOkBtn.addEventListener('click', () => {
+            closeMessageBox();
+            if (messageBoxCallback) {
+                messageBoxCallback();
+            }
+        });
+
+        function showMessageBox(title, content, callback = null) {
+            messageBoxTitle.innerHTML = title; /* Use innerHTML to allow <br> tags */
+            messageBoxContent.innerHTML = content; /* Use innerHTML to allow <br> tags */
+            messageBoxCallback = callback; 
+            messageBoxOverlay.classList.add('visible');
+        }
+
+        function closeMessageBox() {
+            messageBoxOverlay.classList.remove('visible');
+        }
+    </script>
+</body>
+</html>

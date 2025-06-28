@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taskify.AI Settings</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Import Inter font */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5; /* Light grey background from Figma */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 1rem; /* Overall padding for the page */
+            box-sizing: border-box;
+        }
+
+        .settings-container {
+            background-color: #ffffff; /* White background for the main content area */
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); /* Soft shadow for the container */
+            padding: 2rem; /* Padding inside the main container */
+            width: 100%;
+            max-width: 900px; /* Adjusted max-width to match the screenshot proportion */
+        }
+
+        /* Top navigation/header */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .top-nav .logo {
+            font-size: 1.125rem; /* Text size for logo */
+            font-weight: 600;
+            color: #1a202c;
+        }
+
+        .top-nav .user-icons {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .top-nav .user-icons button {
+            background: none;
+            border: none;
+            font-size: 1.25rem; /* Icon size */
+            color: #6b7280;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .top-nav .user-icons button:hover {
+            color: #374151;
+        }
+
+        .top-nav .user-icons .profile-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #e5e7eb; /* Placeholder background */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .top-nav .user-icons .profile-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+
+        /* Main Settings Title */
+        .settings-title {
+            font-size: 2rem; /* Larger heading for settings */
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 2rem; /* More space below main title */
+        }
+
+        /* Section headings within settings */
+        .section-heading {
+            font-size: 1.125rem; /* ~18px for section titles */
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 1rem;
+            padding-top: 1.5rem; /* Spacing above each section */
+            border-top: 1px solid #e5e7eb; /* Separator for sections */
+        }
+        .section-heading:first-of-type {
+            border-top: none; /* No top border for the very first section */
+            padding-top: 0;
+        }
+
+        /* Setting item layout (text + toggle/button) */
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+        }
+
+        .setting-item-text {
+            flex-grow: 1;
+            margin-right: 1rem;
+        }
+
+        .setting-item-text h4 {
+            font-size: 0.95rem; /* Slightly smaller heading for individual settings */
+            font-weight: 500;
+            color: #1a202c;
+            margin-bottom: 0.25rem;
+        }
+
+        .setting-item-text p {
+            font-size: 0.8rem; /* Smaller description text */
+            color: #6b7280;
+            line-height: 1.4;
+        }
+
+        /* Toggle switch styling (reused from profile page) */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+            flex-shrink: 0; /* Prevent toggle from shrinking */
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #4361ee;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #4361ee;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        /* Generic buttons for actions like View, Request, Manage, Change */
+        .action-btn {
+            background-color: #f9fafb;
+            color: #3b82f6;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid #d1d5db;
+            font-weight: 500;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex-shrink: 0; /* Prevent button from shrinking */
+            min-width: 80px; /* Ensure consistent width for these buttons */
+            text-align: center;
+        }
+        .action-btn:hover {
+            background-color: #eef2ff;
+            border-color: #a7caff;
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+        }
+
+        /* Input fields in Account Settings */
+        .account-settings-input-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .account-settings-input-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #4b5563;
+            margin-bottom: 0.5rem;
+        }
+
+        .account-settings-input-wrapper {
+            display: flex; /* Use flex to align input and button */
+            gap: 0.75rem; /* Space between input and button */
+            align-items: center;
+        }
+
+        .account-settings-input-wrapper input,
+        .account-settings-input-wrapper select {
+            flex-grow: 1; /* Allow input/select to take available space */
+            padding: 0.75rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            color: #374151;
+            background-color: #f9fafb;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            -moz-appearance: none; /* Remove default select arrow */
+            -webkit-appearance: none;
+            appearance: none;
+            background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%236B7280%22%20d%3D%22M4.5%204.5L6%206l1.5-1.5L8.25%205.25L6%207.5%203.75%205.25z%22%2F%3E%3C%2Fsvg%3E');
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 0.75rem auto;
+        }
+
+        .account-settings-input-wrapper input:focus,
+        .account-settings-input-wrapper select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        /* Specific styling for the 'Manage Connected Apps' button */
+        .manage-apps-btn {
+            background-color: #f9fafb;
+            color: #3b82f6;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid #d1d5db;
+            font-weight: 500;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            text-align: center;
+        }
+        .manage-apps-btn:hover {
+            background-color: #eef2ff;
+            border-color: #a7caff;
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+        }
+
+        /* Custom Message Box Styles (reused from previous immersive) */
+        .message-box-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .message-box-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .message-box {
+            background-color: #ffffff; /* Card background color */
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+            width: 90%;
+            max-width: 400px;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            text-align: center;
+            color: #1e293b; /* Text color */
+        }
+        .message-box-overlay.visible .message-box {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .message-box h4 {
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        .message-box p {
+            margin-bottom: 1.5rem;
+            color: #64748b; /* Lighter text color */
+        }
+        .message-box button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            background: linear-gradient(to right, #4361ee, #4895ef);
+            color: white;
+            border: none;
+            transition: all 0.2s ease;
+        }
+        .message-box button:hover {
+            background: linear-gradient(to right, #4895ef, #4361ee);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="settings-container">
+        <!-- Top Navigation Bar -->
+        <div class="top-nav">
+            <div class="logo" a href="/main3.html">Taskify.AI</div>
+            <div class="user-icons">
+                <button id="homeButton" data-tooltip="Home Button" a href="/main3.html"><i class="fas fa-home"></i></button>
+                <button id="themeToggle" data-tooltip="Toggle theme">🌙</button>
+                <button id="settingsButton" data-tooltip="Settings"><i class="fas fa-cog"></i></button>
+                <!-- Placeholder for user profile picture -->
+                <button id="userButton" data-tooltip="User profile"><i class="fas fa-user"></i></button>
+                    
+            </div>
+        </div>
+
+        <!-- Main Settings Title -->
+        <h1 class="settings-title">Settings</h1>
+
+        <!-- Notifications Section -->
+        <h2 class="section-heading">Notifications</h2>
+        <div class="settings-section notifications-section">
+            <div class="setting-item">
+                <div class="setting-item-text">
+                    <h4>Task Assignment Alerts</h4>
+                    <p>Get notified when a task is assigned to you.</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="setting-item">
+                <div class="setting-item-text">
+                    <h4>Ethics Flag Alerts</h4>
+                    <p>Receive alerts when potential ethical concerns are flagged in meeting notes.</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="setting-item">
+                <div class="setting-item-text">
+                    <h4>Weekly Summaries</h4>
+                    <p>Receive a weekly summary of your tasks and meeting insights.</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="setting-item">
+                <div class="setting-item-text">
+                    <h4>Meeting Note Delivery Format</h4>
+                    <p>Choose how you receive notes from meetings you attend.</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Integrations Section -->
+        <h2 class="section-heading">Integrations</h2>
+        <div class="settings-section integrations-section">
+            <div class="setting-item">
+                <div class="setting-item-text">
+                    <h4>Calendar Sync</h4>
+                    <p>Sync your calendar to automatically import meetings.</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="setting-item">
+                <div class="setting-item-text">
+                    <h4>Video Conferencing</h4>
+                    <p>Connect your video conferencing tool for seamless meeting note capture.</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="setting-item">
+                <div class="setting-item-text">
+                    <h4>Work Tools</h4>
+                    <p>Integrate with your work tools for task management and collaboration.</p>
+                </div>
+                <button class="manage-apps-btn">Manage Connected Apps</button>
+            </div>
+        </div>
+
+        <!-- Privacy & Security Section -->
+        <h2 class="section-heading">Privacy & Security</h2>
+        <div class="settings-section privacy-security-section">
+            <div class="setting-item">
+                <div class="setting-item-text">
+                    <h4>Two-Factor Authentication</h4>
+                    <p>Add an extra layer of security to your account.</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="setting-item">
+                <div class="setting-item-text">
+                    <h4>Activity Log</h4>
+                    <p>View a log of your account activity.</p>
+                </div>
+                <button class="action-btn">View</button>
+            </div>
+            <div class="setting-item">
+                <div class="setting-item-text">
+                    <h4>Data Export Request</h4>
+                    <p>Request a copy of your data.</p>
+                </div>
+                <button class="action-btn">Request</button>
+            </div>
+            <div class="setting-item">
+                <div class="setting-item-text">
+                    <h4>Ethics Report Visibility</h4>
+                    <p>Control who can see your ethics reports.</p>
+                </div>
+                <button class="action-btn">Manage</button>
+            </div>
+        </div>
+
+        <!-- Account Settings Section -->
+        <h2 class="section-heading">Account Settings</h2>
+        <div class="settings-section account-settings-section">
+            <div class="account-settings-input-group">
+                <label for="emailAccount">Email</label>
+                <div class="account-settings-input-wrapper">
+                    <input type="email" id="emailAccount" value="email@example.com" readonly>
+                </div>
+            </div>
+            <div class="account-settings-input-group">
+                <label for="changePassword">Change Password</label>
+                <div class="account-settings-input-wrapper">
+                    <input type="password" id="changePassword" value="password123" readonly>
+                    <button class="action-btn">Change</button>
+                </div>
+            </div>
+            <div class="account-settings-input-group">
+                <label for="languagePreference">Language Preference</label>
+                <div class="account-settings-input-wrapper">
+                    <select id="languagePreference">
+                        <option value="english" selected>English</option>
+                        <option value="spanish">Spanish</option>
+                        <option value="french">French</option>
+                    </select>
+                </div>
+            </div>
+            <div class="account-settings-input-group">
+                <label for="timezoneSettings">Time Zone</label>
+                <div class="account-settings-input-wrapper">
+                    <select id="timezoneSettings">
+                        <option value="GMT+00:00" selected>(GMT+00:00) Accra</option>
+                        <option value="GMT-05:00">Eastern Time (US & Canada)</option>
+                        <option value="GMT+01:00">Central European Time</option>
+                        <option value="GMT-08:00">Pacific Time (US & Canada)</option>
+                        <option value="GMT+05:30">Indian Standard Time</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Message Box for confirmations/alerts -->
+    <div id="messageBoxOverlay" class="message-box-overlay">
+        <div class="message-box">
+            <h4 id="messageBoxTitle"></h4>
+            <p id="messageBoxContent"></p>
+            <button id="messageBoxOkBtn">OK</button>
+        </div>
+    </div>
+
+    <script>
+        // --- Message Box Functions ---
+        const messageBoxOverlay = document.getElementById('messageBoxOverlay');
+        const messageBoxTitle = document.getElementById('messageBoxTitle');
+        const messageBoxContent = document.getElementById('messageBoxContent');
+        const messageBoxOkBtn = document.getElementById('messageBoxOkBtn');
+        let messageBoxCallback = null;
+
+        messageBoxOkBtn.addEventListener('click', () => {
+            closeMessageBox();
+            if (messageBoxCallback) {
+                messageBoxCallback();
+            }
+        });
+
+        function showMessageBox(title, content, callback = null) {
+            messageBoxTitle.innerHTML = title;
+            messageBoxContent.innerHTML = content;
+            messageBoxCallback = callback;
+            messageBoxOverlay.classList.add('visible');
+        }
+
+        function closeMessageBox() {
+            messageBoxOverlay.classList.remove('visible');
+        }
+
+        // --- Event Listeners for Settings Page Elements ---
+
+        // Handle Toggle Switches
+        document.querySelectorAll('.toggle-switch input[type="checkbox"]').forEach(toggle => {
+            toggle.addEventListener('change', (event) => {
+                const settingItem = event.target.closest('.setting-item');
+                const settingNameElement = settingItem ? settingItem.querySelector('h4') : null;
+                const settingName = settingNameElement ? settingNameElement.textContent : 'Unknown Setting';
+                const status = event.target.checked ? 'enabled' : 'disabled';
+                console.log(`${settingName} is now ${status}.`);
+                // In a real application, you would update the backend with this setting change.
+            });
+        });
+
+        // Handle Action Buttons (View, Request, Manage, Change)
+        document.querySelectorAll('.action-btn, .manage-apps-btn').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const buttonText = event.currentTarget.textContent.trim();
+                let messageTitle = 'Action Triggered';
+                let messageContent = `You clicked the "${buttonText}" button. This would trigger a specific action in a real application.`;
+
+                if (buttonText === 'Manage Connected Apps') {
+                    messageTitle = 'Manage Integrations';
+                    messageContent = 'This action would navigate you to a page to manage your connected applications.';
+                } else if (buttonText === 'Change') {
+                    messageTitle = 'Change Password';
+                    messageContent = 'This would typically open a password change form or modal.';
+                }
+
+                showMessageBox(messageTitle, messageContent, () => {
+                    console.log(`Button clicked: ${buttonText}`);
+                });
+            });
+        });
+        
+
+        // Handle Top Navigation Icons
+        document.querySelectorAll('.top-nav .user-icons button').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const iconClass = event.currentTarget.querySelector('i').classList[1];
+                let action = '';
+                if (iconClass.includes('search')) {
+                    action = 'Search';
+                } else if (iconClass.includes('moon')) {
+                    action = 'Toggle Dark Mode';
+                } else if (iconClass.includes('bell')) {
+                    action = 'View Notifications';
+                }
+                showMessageBox('Navigation Action', `You clicked the "${action}" icon.`, () => {
+                    console.log(`Nav icon clicked: ${action}`);
+                });
+            });
+        });
+
+    </script>
+</body>
+</html>
