@@ -28,7 +28,8 @@
 
         /* Custom styles for hero image background with subtle parallax */
         .hero-section {
-            background-image: url('./Winx.jpg'); /* Placeholder image */
+            /* Changed from url('./Winx.jpg') to a placeholder image URL */
+            background-image: url('/Winx.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -72,6 +73,7 @@
         /* Apply pulsate animation to logo icon */
         .logo-icon {
             animation: pulsate 2s infinite ease-in-out;
+            cursor: pointer;
         }
 
         /* CSS for Scroll-triggered Fade-in Effect */
@@ -210,6 +212,27 @@
             bottom: 0;
             pointer-events: none; /* Ensure clicks pass through */
         }
+
+        /* Adjustments for dropdown positioning within the footer */
+        #faq-dropdown-content {
+            /* Override the -translate-x-1/2 from the previous code if it causes issues, adjust as needed */
+            left: 0; /* Align to the left edge of the parent li */
+            transform: none; /* Remove horizontal translation for better alignment in footer column */
+            width: 100%; /* Make it take full width of its container in the footer */
+            min-width: 280px; /* Ensure a minimum width */
+            max-width: 380px; /* Max width for readability */
+            top: auto; /* Remove explicit top positioning if not needed */
+            bottom: 100%; /* Position above the "FAQs" link in the footer */
+            margin-bottom: 0.5rem; /* Space between link and dropdown */
+            padding: 0; /* Remove default padding for better control of inner content */
+        }
+
+        @media (min-width: 768px) { /* Adjust for medium screens and above if needed */
+            #faq-dropdown-content {
+                bottom: calc(100% + 0.5rem); /* Adjust distance from the bottom for larger screens */
+            }
+        }
+        
     </style>
 </head>
 <body class="text-gray-800">
@@ -220,7 +243,7 @@
             <div class="flex items-center space-x-2">
                 <!-- Taskify.AI Logo/Text with pulsate animation -->
                 <i class="fas fa-tasks text-indigo-600 text-xl logo-icon"></i>
-                <span class="font-bold text-xl">Taskify.AI</span>
+                <span class="font-bold text-xl" a href="/index.html">Taskify.AI</span>
             </div>
             <div class="hidden md:flex items-center space-x-6">
                 <a href="#features-section" class="text-gray-700 nav-link-hover font-medium transition duration-300">Features</a>
@@ -228,8 +251,10 @@
                 <a href="#testimonials-section" class="text-gray-700 nav-link-hover font-medium transition duration-300">Testimonials</a>
                 <a href="#cta-section" class="text-gray-700 nav-link-hover font-medium transition duration-300">Contact Us</a>
                 <a href="main3.html" class="text-gray-700 nav-link-hover font-medium transition duration-300">Taskify.AI</a>
-                <button class="bg-transparent text-indigo-600 border border-indigo-600 py-2 px-4 rounded-lg hover:bg-indigo-50 btn-hover-bounce transition duration-300">Login</button>
-                <button class="bg-indigo-600 text-white py-2 px-4 rounded-lg shadow-md hover:bg-indigo-700 btn-hover-bounce transition duration-300">Sign Up</button>
+            
+                <a href="login.html" class="bg-transparent text-indigo-600 border border-indigo-600 py-2 px-4 rounded-lg hover:bg-indigo-50 btn-hover-bounce transition duration-300">Login</a>
+            
+                <a href="signup.html" class="bg-indigo-600 text-white py-2 px-4 rounded-lg shadow-md hover:bg-indigo-700 btn-hover-bounce transition duration-300">Sign Up</a>
             </div>
             <!-- Mobile Menu Button -->
             <div class="md:hidden">
@@ -435,7 +460,67 @@
                 <ul>
                     <li class="mb-2"><a href="#" class="text-gray-400 hover:text-white transition duration-200">Blog</a></li>
                     <li class="mb-2"><a href="#" class="text-gray-400 hover:text-white transition duration-200">Guides</a></li>
-                    <li class="mb-2"><a href="#" class="text-gray-400 hover:text-white transition duration-200">FAQs</a></li>
+                    <!-- FAQs Link with Dropdown - Integrated Here -->
+                    <li class="relative mb-2">
+                        <a id="faq-toggle" href="#" class="text-gray-400 hover:text-white transition duration-200 flex items-center">
+                            FAQs
+                            <svg id="arrow-icon" class="w-4 h-4 ml-2 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </a>
+
+                        <!-- FAQ Dropdown Content -->
+                        <div id="faq-dropdown-content" class="absolute z-20 left-0 w-full md:w-96 bg-gray-800 rounded-md shadow-lg overflow-hidden hidden transition-all duration-300 ease-out opacity-0 translate-y-2">
+                            <div class="p-4">
+                                <h2 class="text-lg font-semibold mb-4 text-white">Frequently Asked Questions</h2>
+                                <!-- Individual FAQ Item -->
+                                <div class="faq-item mb-2 border-b border-gray-700 last:border-b-0">
+                                    <button class="faq-question w-full text-left py-3 px-2 flex justify-between items-center text-gray-200 hover:text-white focus:outline-none">
+                                        <span>What is Netflix?</span>
+                                        <span class="plus-icon text-xl">+</span>
+                                        <span class="minus-icon text-xl hidden">-</span>
+                                    </button>
+                                    <div class="faq-answer hidden bg-gray-700 text-gray-300 px-4 py-3 rounded-b-md">
+                                        <p>Netflix is a streaming service that offers a wide variety of award-winning TV shows, movies, anime, documentaries, and more on thousands of internet-connected devices.</p>
+                                        <p class="mt-2">You can watch as much as you want, whenever you want without a single commercial - all for one low monthly price. There's always something new to discover and new TV shows and movies are added every week!</p>
+                                    </div>
+                                </div>
+                                <!-- Individual FAQ Item -->
+                                <div class="faq-item mb-2 border-b border-gray-700 last:border-b-0">
+                                    <button class="faq-question w-full text-left py-3 px-2 flex justify-between items-center text-gray-200 hover:text-white focus:outline-none">
+                                        <span>How much does Netflix cost?</span>
+                                        <span class="plus-icon text-xl">+</span>
+                                        <span class="minus-icon text-xl hidden">-</span>
+                                    </button>
+                                    <div class="faq-answer hidden bg-gray-700 text-gray-300 px-4 py-3 rounded-b-md">
+                                        <p>Watch Netflix on your smartphone, tablet, Smart TV, laptop, or streaming device, all for one fixed monthly fee. Plans range from $6.99 to $22.99 a month. No extra costs, no contracts.</p>
+                                    </div>
+                                </div>
+                                <!-- Individual FAQ Item -->
+                                <div class="faq-item mb-2 border-b border-gray-700 last:border-b-0">
+                                    <button class="faq-question w-full text-left py-3 px-2 flex justify-between items-center text-gray-200 hover:text-white focus:outline-none">
+                                        <span>Where can I watch?</span>
+                                        <span class="plus-icon text-xl">+</span>
+                                        <span class="minus-icon text-xl hidden">-</span>
+                                    </button>
+                                    <div class="faq-answer hidden bg-gray-700 text-gray-300 px-4 py-3 rounded-b-md">
+                                        <p>Watch anywhere, anytime. Sign in with your Netflix account to watch instantly on the web at netflix.com from your personal computer or on any internet-connected device that offers the Netflix app, including smart TVs, smartphones, tablets, streaming media players and game consoles.</p>
+                                    </div>
+                                </div>
+                                <!-- Individual FAQ Item -->
+                                <div class="faq-item border-b border-gray-700 last:border-b-0">
+                                    <button class="faq-question w-full text-left py-3 px-2 flex justify-between items-center text-gray-200 hover:text-white focus:outline-none">
+                                        <span>How do I cancel?</span>
+                                        <span class="plus-icon text-xl">+</span>
+                                        <span class="minus-icon text-xl hidden">-</span>
+                                    </button>
+                                    <div class="faq-answer hidden bg-gray-700 text-gray-300 px-4 py-3 rounded-b-md">
+                                        <p>Netflix is flexible. There are no pesky contracts and no commitments. You can easily cancel your account online in two clicks. There are no cancellation fees – start or stop your account anytime.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
                 </ul>
             </div>
 
@@ -521,6 +606,86 @@
             fadeInSections.forEach(section => {
                 observer.observe(section);
             });
+
+            // --- FAQ Dropdown and Accordion Logic ---
+            const faqToggle = document.getElementById('faq-toggle');
+            const faqDropdownContent = document.getElementById('faq-dropdown-content');
+            const arrowIcon = document.getElementById('arrow-icon');
+            const faqQuestions = document.querySelectorAll('.faq-question');
+
+            // Toggle dropdown visibility when FAQ link is clicked
+            faqToggle.addEventListener('click', (event) => {
+                event.preventDefault(); // Prevent default link behavior
+                const isHidden = faqDropdownContent.classList.contains('hidden');
+
+                if (isHidden) {
+                    faqDropdownContent.classList.remove('hidden', 'opacity-0', 'translate-y-2');
+                    faqDropdownContent.classList.add('opacity-100', 'translate-y-0');
+                    arrowIcon.classList.add('rotate-180'); // Rotate arrow up
+                } else {
+                    faqDropdownContent.classList.remove('opacity-100', 'translate-y-0');
+                    faqDropdownContent.classList.add('opacity-0', 'translate-y-2');
+                    arrowIcon.classList.remove('rotate-180'); // Rotate arrow down
+                    // Add hidden class after transition
+                    faqDropdownContent.addEventListener('transitionend', function handler() {
+                        if (faqDropdownContent.classList.contains('opacity-0')) {
+                            faqDropdownContent.classList.add('hidden');
+                        }
+                        faqDropdownContent.removeEventListener('transitionend', handler);
+                    });
+                }
+            });
+
+            // Close dropdown if clicked outside
+            document.addEventListener('click', (event) => {
+                // Check if the click is outside the dropdown content AND outside the toggle button
+                // And ensure the dropdown is currently visible (not hidden)
+                if (!faqDropdownContent.contains(event.target) && !faqToggle.contains(event.target)) {
+                    if (!faqDropdownContent.classList.contains('hidden')) {
+                        faqDropdownContent.classList.remove('opacity-100', 'translate-y-0');
+                        faqDropdownContent.classList.add('opacity-0', 'translate-y-2');
+                        arrowIcon.classList.remove('rotate-180'); // Rotate arrow down
+                        // Add hidden class after transition completes
+                        faqDropdownContent.addEventListener('transitionend', function handler() {
+                            if (faqDropdownContent.classList.contains('opacity-0')) {
+                                faqDropdownContent.classList.add('hidden');
+                            }
+                            faqDropdownContent.removeEventListener('transitionend', handler);
+                        });
+                    }
+                }
+            });
+
+
+            // Toggle FAQ answer visibility (accordion functionality)
+            faqQuestions.forEach(button => {
+                button.addEventListener('click', () => {
+                    const faqItem = button.closest('.faq-item');
+                    const answer = faqItem.querySelector('.faq-answer');
+                    const plusIcon = button.querySelector('.plus-icon');
+                    const minusIcon = button.querySelector('.minus-icon');
+
+                    if (answer.classList.contains('hidden')) {
+                        // Hide all other open answers
+                        document.querySelectorAll('.faq-answer:not(.hidden)').forEach(openAnswer => {
+                            openAnswer.classList.add('hidden');
+                            openAnswer.previousElementSibling.querySelector('.minus-icon').classList.add('hidden');
+                            openAnswer.previousElementSibling.querySelector('.plus-icon').classList.remove('hidden');
+                        });
+
+                        // Show current answer
+                        answer.classList.remove('hidden');
+                        plusIcon.classList.add('hidden');
+                        minusIcon.classList.remove('hidden');
+                    } else {
+                        // Hide current answer
+                        answer.classList.add('hidden');
+                        plusIcon.classList.remove('hidden');
+                        minusIcon.classList.add('hidden');
+                    }
+                });
+            });
+            // --- End FAQ Dropdown and Accordion Logic ---
         });
     </script>
 </body>
