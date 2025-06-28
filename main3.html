@@ -1084,10 +1084,16 @@
         <header class="app-header">
             <h1>Taskify</h1>
             <div class="header-controls">
-                <button id="themeToggle" data-tooltip="Toggle theme">🌙</button>
-                <button id="userButton" data-tooltip="User profile"><i class="fas fa-user"></i></button>
-                <button id="settingsButton" data-tooltip="Settings"><i class="fas fa-cog"></i></button>
-            </div>
+    <button id="themeToggle" data-tooltip="Toggle theme">🌙</button>
+    <!-- Profile Button linked to profile.html -->
+    <a href="profile.html" id="userButton" data-tooltip="User profile" class="inline-flex items-center justify-center p-2 rounded-md hover:bg-gray-100 transition duration-200 text-gray-700">
+        <i class="fas fa-user"></i>
+    </a>
+    <!-- Settings Button linked to settings.html -->
+    <a href="settings.html" id="settingsButton" data-tooltip="Settings" class="inline-flex items-center justify-center p-2 rounded-md hover:bg-gray-100 transition duration-200 text-gray-700">
+        <i class="fas fa-cog"></i>
+    </a>
+</div>
         </header>
 
         <!-- Sidebar - Now horizontal at top -->
