@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login to Taskify.AI</title>
-    <!-- Tailwind CSS CDN for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* Custom styles to refine Tailwind or add specific elements */
@@ -46,6 +44,7 @@
             width: 100%; /* Ensure it takes full width within body padding */
             max-width: 500px; /* Max width for single card layout */
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1); /* Slightly more prominent shadow */
+            position: relative; /* Needed for positioning back button within this context */
         }
 
         /* Card styling for login/signup forms */
@@ -357,17 +356,97 @@
             transform: translateY(-1px);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
+        /* Back Button styles - Enhanced */
+        .back-button-container {
+            position: absolute; /* Positioned relative to the first positioned parent (body or auth-master-container) */
+            top: 1.5rem; /* Adjusted for better spacing from the top */
+            left: 1.5rem; /* Adjusted for better spacing from the left */
+            z-index: 10; /* Ensure it's above other content */
+        }
+        .back-button-effect {
+            display: flex;
+            align-items: center;
+            color: #6b7280; /* Gray color */
+            font-weight: 500; /* Slightly bolder text */
+            text-decoration: none;
+            padding: 0.6rem 1rem; /* More generous padding for a larger clickable area */
+            border-radius: 9999px; /* Fully rounded/pill shape */
+            background-color: rgba(255, 255, 255, 0.6); /* Slightly transparent white background */
+            backdrop-filter: blur(5px); /* Subtle blur for modern look */
+            border: 1px solid rgba(209, 213, 219, 0.4); /* Light border */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Soft initial shadow */
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Bouncy transition */
+            overflow: hidden; /* For any internal animation clipping */
+        }
+        .back-button-effect:hover {
+            color: #4f46e5; /* Deeper indigo on hover */
+            transform: translateX(-8px) rotate(-5deg) scale(1.05); /* More slide, slight rotate, slight scale */
+            background: linear-gradient(135deg, #e0e7ff, #c7d2fe); /* Subtle blue gradient on hover */
+            box-shadow: 0 8px 25px rgba(79, 70, 229, 0.4), 0 0 15px rgba(79, 70, 229, 0.8); /* Stronger shadow with glow */
+            border-color: #6366f1; /* Stronger border color */
+        }
+        .back-button-effect:active {
+            transform: translateY(0) scale(0.95) rotate(0deg); /* Reset and press effect */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            background: #c7d2fe; /* Solid lighter blue on active */
+            transition-duration: 0.1s; /* Faster active feedback */
+        }
+        .back-button-effect .back-icon {
+            font-size: 1.3rem; /* Slightly larger icon */
+            margin-right: 0.6rem; /* More space between icon and text */
+            transition: transform 0.3s ease; /* Icon transition */
+        }
+        .back-button-effect:hover .back-icon {
+            transform: translateX(-2px); /* Icon shifts slightly within the button */
+        }
+
+        /* Responsive adjustments for overall container and card */
+        @media (max-width: 640px) { /* Adjustments for small screens */
+            .auth-master-container {
+                padding: 10px; /* Less padding on very small screens */
+            }
+            .auth-card {
+                padding: 1.5rem; /* Less padding inside card on small screens */
+            }
+            .auth-card h2 {
+                font-size: 1.5rem; /* Smaller heading on small screens */
+            }
+            .auth-card .subtext {
+                font-size: 0.875rem;
+            }
+            .input-wrapper input {
+                padding: 0.75rem 0.85rem; /* Smaller padding for inputs */
+            }
+            .back-button-container {
+                top: 0.75rem; /* Adjust top padding for very small screens */
+                left: 0.75rem; /* Adjust left padding for very small screens */
+            }
+            .back-button-effect {
+                padding: 0.4rem 0.8rem; /* Smaller padding for button on small screens */
+                font-size: 0.85rem; /* Smaller font size for button text */
+            }
+            .back-button-effect .back-icon {
+                font-size: 1.1rem; /* Smaller icon size for button on small screens */
+                margin-right: 0.4rem;
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="auth-master-container">
-        <!-- Login Page -->
+        <div class="back-button-container">
+            <button onclick="goToPreviousPage()" class="back-button-effect">
+                <i class="fas fa-arrow-left back-icon"></i>
+                <span class="font-medium">Back</span>
+            </button>
+        </div>
+
         <div id="loginPage" class="auth-card">
             <h2 class="text-3xl font-bold text-center text-gray-800">Welcome Back!</h2>
             <p class="subtext text-center">
                 Don't have an account? 
-                <a href="signup.html">Sign up</a> <!-- Link to a separate signup.html -->
-            </p>
+                <a href="./signup.html">Sign up</a> </p>
 
             <form id="loginForm" class="space-y-4">
                 <div class="input-group">
@@ -456,14 +535,11 @@
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
 
-            console.log('Login Attempt:');
-            console.log('Email:', email);
-            console.log('Password:', password);
-            showMessageBox('Login Submitted', 'Login form submitted successfully! (Check console for data)<br><br>Note: Actual user authentication requires a backend service.', () => {
-                loginForm.reset();
-                // Since this is a standalone login page, we might redirect or show a success message
-                // For demonstration, we'll just close the message box.
-            });
+            // Welcome message in console
+            console.log(`Welcome, ${email}!`);
+            
+            // Redirect to ../main3.html
+            window.location.href = '../main3.html';
         });
 
         // Handle social login buttons (for demonstration)
@@ -513,6 +589,15 @@
 
         function closeMessageBox() {
             messageBoxOverlay.classList.remove('visible');
+        }
+
+        // Back button functionality
+        function goToPreviousPage() {
+            // This can be set to a specific page, e.g., 'index.html' or 'signup.html'
+            // By default, it goes back to the previous page in history.
+            // To link to a specific file, uncomment and modify the line below:
+            // window.location.href = 'index.html'; 
+            window.history.back(); 
         }
     </script>
 </body>
