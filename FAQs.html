@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frequently Asked Questions</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Import Inter font */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(45deg, #1a1a1a, #2a2a2a, #1a1a1a); /* Dark gradient background */
+            background-size: 400% 400%;
+            animation: backgroundPan 15s ease infinite; /* Smooth, slow background animation */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to top */
+            min-height: 100vh;
+            padding: 2rem 1rem; /* Padding for overall page */
+            box-sizing: border-box;
+            color: #ffffff; /* Default text color for dark background */
+        }
+
+        /* Keyframes for background animation */
+        @keyframes backgroundPan {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .faq-container {
+            background-color: rgba(0, 0, 0, 0.7); /* Slightly transparent black for the container */
+            border-radius: 0.75rem; /* Rounded corners */
+            padding: 1.5rem;
+            width: 100%;
+            max-width: 800px; /* Max width for better readability */
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6); /* Stronger shadow for depth */
+        }
+
+        .faq-header {
+            font-size: 2.5rem; /* Slightly larger for impact */
+            font-weight: 800; /* Bolder font */
+            color: #ffffff;
+            margin-bottom: 2rem; /* More space below header */
+            text-align: center;
+            opacity: 0; /* Hidden initially for animation */
+            transform: scale(0.9); /* Smaller initially for animation */
+            animation: fadeInScaleUp 1s ease-out forwards; /* Cool animation for the heading */
+        }
+
+        /* Responsive font size for faq-header */
+        @media (max-width: 640px) { /* Small screens */
+            .faq-header {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Keyframes for main heading animation */
+        @keyframes fadeInScaleUp {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .faq-item {
+            background-color: #333333; /* Dark grey for each FAQ item */
+            border-radius: 0.5rem;
+            margin-bottom: 0.75rem; /* Space between items */
+            overflow: hidden; /* Important for animation */
+            transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .faq-item:hover {
+            background-color: #444444; /* Slightly lighter on hover */
+            transform: translateY(-5px); /* Lift effect */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); /* Stronger shadow on hover */
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.25rem;
+            cursor: pointer;
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            user-select: none; /* Prevent text selection on double click */
+        }
+
+        /* Responsive font size for faq-question h3 */
+        @media (max-width: 640px) {
+            .faq-question {
+                font-size: 1rem;
+                padding: 0.8rem 1rem;
+            }
+        }
+
+        .faq-question h3 {
+            transition: transform 0.2s ease-in-out; /* Animation for question text on hover */
+        }
+
+        .faq-question:hover h3 {
+            transform: scale(1.02); /* Slight scale up on hover */
+        }
+
+        .faq-question i {
+            font-size: 1.25rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-answer {
+            color: #cccccc;
+            font-size: 0.95rem;
+            padding: 0 1.25rem; /* Initial padding */
+            max-height: 0; /* Initially hidden */
+            overflow: hidden;
+            /* Heavy and cool dropdown animation with cubic-bezier for bounce */
+            transition: max-height 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55), padding 0.4s ease-in-out;
+            line-height: 1.5;
+        }
+
+        /* Responsive font size for faq-answer p */
+        @media (max-width: 640px) {
+            .faq-answer {
+                font-size: 0.85rem;
+                padding: 0 1rem;
+            }
+        }
+
+        .faq-item.active .faq-answer {
+            /* Set a sufficiently large max-height to ensure content is not clipped, even with bounce */
+            max-height: 500px; /* Increased to accommodate larger content on wider screens */
+            padding-bottom: 1.25rem; /* Add bottom padding when active */
+            padding-top: 0.5rem; /* Add some top padding when active */
+        }
+
+        /* Adjust max-height for very small screens if necessary, though JS handles dynamic scrollHeight */
+        @media (max-width: 480px) {
+            .faq-item.active .faq-answer {
+                max-height: 800px; /* Even larger for very long content on small screens, adjust as needed */
+            }
+        }
+
+
+        .faq-item.active .faq-question i.fa-plus {
+            transform: rotate(45deg); /* Plus becomes an X */
+        }
+         .faq-item.active .faq-question i.fa-plus-circle {
+            transform: rotate(45deg); /* Plus-circle becomes an X */
+        }
+        .faq-item.active .faq-question i.fa-times {
+            transform: rotate(0deg); /* No rotation for X, but ensure it's correct */
+        }
+
+        /* Back Button styles */
+        .back-button-container {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            z-index: 10; /* Ensure it's above other content */
+        }
+        .back-button-effect {
+            @apply transform transition-all duration-200 ease-in-out
+                   hover:translate-x-[-4px] hover:text-gray-400
+                   active:scale-95 active:brightness-125; /* Added active state for click animation */
+        }
+        .back-icon {
+            stroke-width: 2.5; /* Make the arrow thicker */
+        }
+    </style>
+</head>
+<body>
+    <div class="back-button-container">
+        <button onclick="handleBackButtonClick()" class="flex items-center text-gray-500 hover:text-white transition duration-200 back-button-effect">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="back-icon lucide lucide-arrow-left">
+                <path d="m12 19-7-7 7-7"/>
+                <path d="M19 12H5"/>
+            </svg>
+            <span class="ml-2 font-medium">Back</span>
+        </button>
+    </div>
+
+    <div class="faq-container">
+        <h1 class="faq-header">Frequently Asked Questions</h1>
+
+        <div class="faq-list">
+            <!-- FAQ Item 1 (Expanded by default) -->
+            <div class="faq-item active">
+                <div class="faq-question">
+                    <h3>What is Taskify.AI?</h3>
+                    <i class="fas fa-times"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Taskify.AI is an intelligent productivity platform designed to streamline your workflow through AI-powered task management, meeting summarization, and ethical flagging of discussions. It helps teams stay organized, efficient, and ensures compliance by identifying potential ethical concerns in real-time.</p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 2 -->
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>How does Taskify.AI use AI?</h3>
+                    <i class="fas fa-plus"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Our AI is trained to understand natural language in meetings, automatically identify action items, summarize key discussions, and detect phrases or topics that might indicate ethical breaches. This saves time and ensures important points are never missed.</p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 3 -->
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Is my data secure with Taskify.AI?</h3>
+                    <i class="fas fa-plus"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes, data security is our top priority. We use industry-standard encryption protocols and secure servers to protect your information. All data processed by our AI models is anonymized and used strictly for improving your experience and service quality, never for third-party purposes without explicit consent.</p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 4 -->
+            <div class="faq-question">
+                <h3>Can I integrate Taskify.AI with other tools?</h3>
+                <i class="fas fa-plus"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Absolutely! Taskify.AI supports seamless integration with popular calendar applications (e.g., Google Calendar, Outlook Calendar), video conferencing platforms (e.g., Zoom, Microsoft Teams), and various project management tools (e.g., Jira, Asana, Trello). This allows for automatic meeting imports, streamlined note capture, and efficient task management across your existing ecosystem.</p>
+            </div>
+
+            <!-- FAQ Item 5 -->
+            <div class="faq-question">
+                <h3>What is "Ethics Flagging"?</h3>
+                <i class="fas fa-plus"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Ethics Flagging is an AI-powered feature that intelligently analyzes meeting discussions for keywords or conversational patterns that may indicate a potential breach of company ethics, compliance rules, or legal guidelines. When a potential flag is raised, the system can alert designated personnel for review, promoting responsible conduct and mitigating risks. This feature helps maintain high ethical standards within your organization.</p>
+            </div>
+
+            <!-- FAQ Item 6 -->
+            <div class="faq-question">
+                <h3>How do I change my notification preferences?</h3>
+                <i class="fas fa-plus"></i>
+            </div>
+            <div class="faq-answer">
+                <p>You can easily customize all your notification preferences to suit your needs. Simply navigate to the 'Settings' page within Taskify.AI and locate the 'Notifications' section. Here, you'll find various toggles and options to control alerts for task assignments, ethics flags, weekly summaries, and even your preferred meeting note delivery format. Remember to save your changes to apply them.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const faqItems = document.querySelectorAll('.faq-item');
+
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                const answer = item.querySelector('.faq-answer');
+                const icon = question.querySelector('i');
+
+                // Set initial icon and height based on 'active' class
+                if (item.classList.contains('active')) {
+                    icon.classList.remove('fa-plus');
+                    icon.classList.add('fa-times'); // Use 'x' icon for expanded
+                    // Set initial height for active item to allow content to be visible on load
+                    answer.style.maxHeight = answer.scrollHeight + 50 + 'px'; 
+                } else {
+                    // Ensure initial height is 0 for non-active items
+                    answer.style.maxHeight = '0px';
+                }
+
+                question.addEventListener('click', () => {
+                    // Toggle 'active' class on the clicked FAQ item
+                    item.classList.toggle('active');
+
+                    // Adjust max-height for smooth animation
+                    if (item.classList.contains('active')) {
+                        // When expanding, set max-height to scrollHeight + a buffer for bounce
+                        answer.style.maxHeight = (answer.scrollHeight + 50) + 'px'; 
+                        icon.classList.remove('fa-plus');
+                        icon.classList.add('fa-times'); // Change to 'x' icon
+                    } else {
+                        // When collapsing, set max-height to 0
+                        answer.style.maxHeight = '0px';
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-plus'); // Change to 'plus' icon
+                    }
+
+                    // Optional: Close other open FAQ items (accordion behavior)
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item && otherItem.classList.contains('active')) {
+                            otherItem.classList.remove('active');
+                            otherItem.querySelector('.faq-answer').style.maxHeight = '0px';
+                            const otherIcon = otherItem.querySelector('.faq-question i');
+                            if (otherIcon) {
+                                otherIcon.classList.remove('fa-times');
+                                otherIcon.classList.add('fa-plus');
+                            }
+                        }
+                    });
+                });
+
+                // Recalculate max-height on window resize for responsiveness
+                window.addEventListener('resize', () => {
+                    if (item.classList.contains('active')) {
+                        // Recalculate with buffer on resize if active
+                        answer.style.maxHeight = (answer.scrollHeight + 50) + 'px';
+                    }
+                });
+            });
+        });
+
+        // Function for the back button
+        function handleBackButtonClick() {
+            console.log("Back button clicked. Navigating back to previous page.");
+            window.history.back(); /* This will take the user to the previous page in their browser history. */
+        }
+    </script>
+</body>
+</html>
