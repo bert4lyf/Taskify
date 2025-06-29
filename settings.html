@@ -21,7 +21,85 @@
             min-height: 100vh;
             padding: 1rem; /* Overall padding for the page */
             box-sizing: border-box;
+            transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out; /* Smooth transition for theme change */
         }
+
+        /* Dark Theme Styles */
+        body.dark-theme {
+            background-color: #1a202c; /* Dark background for dark mode */
+            color: #e2e8f0; /* Lighter text for dark mode */
+        }
+
+        body.dark-theme .settings-container {
+            background-color: #2d3748; /* Darker card for dark mode */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark-theme .top-nav .logo,
+        body.dark-theme .settings-title,
+        body.dark-theme .section-heading,
+        body.dark-theme .setting-item-text h4 {
+            color: #e2e8f0;
+        }
+        body.dark-theme .top-nav .user-icons button {
+            color: #a0aec0;
+        }
+        body.dark-theme .top-nav .user-icons button:hover {
+            color: #cbd5e0;
+        }
+        body.dark-theme .top-nav .profile-circle {
+            background-color: #4a5568;
+        }
+        body.dark-theme .setting-item-text p {
+            color: #a0aec0;
+        }
+        body.dark-theme .top-nav,
+        body.dark-theme .section-heading {
+            border-color: #4a5568;
+        }
+        body.dark-theme .slider {
+            background-color: #4a5568;
+        }
+        body.dark-theme input:checked + .slider {
+            background-color: #4f46e5; /* Darker indigo for toggle */
+        }
+        body.dark-theme .action-btn,
+        body.dark-theme .manage-apps-btn {
+            background-color: #4a5568;
+            color: #90cdf4;
+            border-color: #6366F1;
+        }
+        body.dark-theme .action-btn:hover,
+        body.dark-theme .manage-apps-btn:hover {
+            background-color: #3b82f6;
+            border-color: #3b82f6;
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+        }
+        body.dark-theme .account-settings-input-group label {
+            color: #cbd5e0;
+        }
+        body.dark-theme .account-settings-input-wrapper input,
+        body.dark-theme .account-settings-input-wrapper select {
+            background-color: #4a5568;
+            border-color: #6366F1;
+            color: #e2e8f0;
+        }
+        body.dark-theme .account-settings-input-wrapper input:focus,
+        body.dark-theme .account-settings-input-wrapper select:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
+        }
+        body.dark-theme .save-changes-btn {
+            background: linear-gradient(to right, #4f46e5, #6366F1); /* Darker indigo for dark mode */
+            box-shadow: 0 0 10px rgba(79, 70, 229, 0.5); /* Matching glow */
+        }
+        body.dark-theme .save-changes-btn:hover {
+            box-shadow: 0 0 20px rgba(79, 70, 229, 0.8), 0 0 30px rgba(79, 70, 229, 0.5);
+        }
+        body.dark-theme .save-changes-btn:active {
+            background: linear-gradient(to right, #6366F1, #4f46e5);
+        }
+
 
         .settings-container {
             background-color: #ffffff; /* White background for the main content area */
@@ -30,6 +108,7 @@
             padding: 2rem; /* Padding inside the main container */
             width: 100%;
             max-width: 900px; /* Adjusted max-width to match the screenshot proportion */
+            transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
         }
 
         /* Top navigation/header */
@@ -40,12 +119,18 @@
             padding-bottom: 1.5rem;
             margin-bottom: 1.5rem;
             border-bottom: 1px solid #e5e7eb;
+            transition: border-color 0.3s ease-in-out;
         }
 
         .top-nav .logo {
             font-size: 1.125rem; /* Text size for logo */
             font-weight: 600;
             color: #1a202c;
+            text-decoration: none; /* Remove underline from link */
+            transition: color 0.3s ease-in-out;
+        }
+        .top-nav .logo:hover {
+            color: #3b82f6; /* Blue on hover */
         }
 
         .top-nav .user-icons {
@@ -60,10 +145,11 @@
             font-size: 1.25rem; /* Icon size */
             color: #6b7280;
             cursor: pointer;
-            transition: color 0.2s;
+            transition: color 0.2s, transform 0.2s;
         }
         .top-nav .user-icons button:hover {
             color: #374151;
+            transform: scale(1.1);
         }
 
         .top-nav .user-icons .profile-circle {
@@ -75,6 +161,7 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            border: 2px solid #a7caff; /* Subtle border */
         }
         .top-nav .user-icons .profile-circle img {
             width: 100%;
@@ -82,13 +169,13 @@
             object-fit: cover;
         }
 
-
         /* Main Settings Title */
         .settings-title {
             font-size: 2rem; /* Larger heading for settings */
             font-weight: 700;
             color: #1a202c;
             margin-bottom: 2rem; /* More space below main title */
+            transition: color 0.3s ease-in-out;
         }
 
         /* Section headings within settings */
@@ -99,6 +186,7 @@
             margin-bottom: 1rem;
             padding-top: 1.5rem; /* Spacing above each section */
             border-top: 1px solid #e5e7eb; /* Separator for sections */
+            transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out;
         }
         .section-heading:first-of-type {
             border-top: none; /* No top border for the very first section */
@@ -123,12 +211,14 @@
             font-weight: 500;
             color: #1a202c;
             margin-bottom: 0.25rem;
+            transition: color 0.3s ease-in-out;
         }
 
         .setting-item-text p {
             font-size: 0.8rem; /* Smaller description text */
             color: #6b7280;
             line-height: 1.4;
+            transition: color 0.3s ease-in-out;
         }
 
         /* Toggle switch styling (reused from profile page) */
@@ -203,51 +293,6 @@
             box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
         }
 
-        /* Input fields in Account Settings */
-        .account-settings-input-group {
-            margin-bottom: 1.25rem;
-        }
-
-        .account-settings-input-group label {
-            display: block;
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: #4b5563;
-            margin-bottom: 0.5rem;
-        }
-
-        .account-settings-input-wrapper {
-            display: flex; /* Use flex to align input and button */
-            gap: 0.75rem; /* Space between input and button */
-            align-items: center;
-        }
-
-        .account-settings-input-wrapper input,
-        .account-settings-input-wrapper select {
-            flex-grow: 1; /* Allow input/select to take available space */
-            padding: 0.75rem 1rem;
-            border: 1px solid #d1d5db;
-            border-radius: 0.5rem;
-            font-size: 1rem;
-            color: #374151;
-            background-color: #f9fafb;
-            transition: border-color 0.2s, box-shadow 0.2s;
-            -moz-appearance: none; /* Remove default select arrow */
-            -webkit-appearance: none;
-            appearance: none;
-            background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%236B7280%22%20d%3D%22M4.5%204.5L6%206l1.5-1.5L8.25%205.25L6%207.5%203.75%205.25z%22%2F%3E%3C%2Fsvg%3E');
-            background-repeat: no-repeat;
-            background-position: right 0.75rem center;
-            background-size: 0.75rem auto;
-        }
-
-        .account-settings-input-wrapper input:focus,
-        .account-settings-input-wrapper select:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-        }
-
         /* Specific styling for the 'Manage Connected Apps' button */
         .manage-apps-btn {
             background-color: #f9fafb;
@@ -266,6 +311,77 @@
             background-color: #eef2ff;
             border-color: #a7caff;
             box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+        }
+
+        /* Input fields in Account Settings */
+        .account-settings-input-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .account-settings-input-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #4b5563;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .account-settings-input-wrapper {
+            display: flex; /* Use flex to align input and button */
+            gap: 0.75rem; /* Space between input and button */
+            align-items: center;
+        }
+
+        .account-settings-input-wrapper input,
+        .account-settings-input-wrapper select {
+            flex-grow: 1; /* Allow input/select to take available space */
+            padding: 0.75rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            color: #374151;
+            background-color: #f9fafb;
+            transition: border-color 0.2s, box-shadow 0.2s, background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+            -moz-appearance: none; /* Remove default select arrow */
+            -webkit-appearance: none;
+            appearance: none;
+            background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%236B7280%22%20d%3D%22M4.5%204.5L6%206l1.5-1.5L8.25%205.25L6%207.5%203.75%205.25z%22%2F%3E%3C%2Fsvg%3E');
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 0.75rem auto;
+        }
+
+        .account-settings-input-wrapper input:focus,
+        .account-settings-input-wrapper select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        /* Save Changes Button Styling */
+        .save-changes-btn {
+            background: linear-gradient(to right, #4361ee, #4895ef);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem; /* More rounded */
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(67, 97, 238, 0.5); /* Initial glow */
+        }
+
+        .save-changes-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(67, 97, 238, 0.8), 0 0 30px rgba(72, 149, 239, 0.5); /* Enhanced glow on hover */
+        }
+
+        .save-changes-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 0 5px rgba(67, 97, 238, 0.3);
+            filter: brightness(1.2); /* Make it brighter when clicked */
         }
 
         /* Custom Message Box Styles (reused from previous immersive) */
@@ -335,14 +451,22 @@
     <div class="settings-container">
         <!-- Top Navigation Bar -->
         <div class="top-nav">
-            <div class="logo" a href="/main3.html">Taskify.AI</div>
+            <!-- Back Button -->
+            <button onclick="handleBackButtonClick()" class="flex items-center text-gray-600 hover:text-gray-900 transition duration-200 back-button-effect">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="back-icon lucide lucide-arrow-left">
+                    <path d="m12 19-7-7 7-7"/>
+                    <path d="M19 12H5"/>
+                </svg>
+                <span class="ml-2 font-medium">Back</span>
+            </button>
+            <a href="index.html" class="logo">Taskify.AI</a>
             <div class="user-icons">
-                <button id="homeButton" data-tooltip="Home Button" a href="/main3.html"><i class="fas fa-home"></i></button>
+                <button id="homeButton" data-tooltip="Home"><i class="fas fa-home"></i></button>
                 <button id="themeToggle" data-tooltip="Toggle theme">🌙</button>
-                <button id="settingsButton" data-tooltip="Settings"><i class="fas fa-cog"></i></button>
-                <!-- Placeholder for user profile picture -->
-                <button id="userButton" data-tooltip="User profile"><i class="fas fa-user"></i></button>
-                    
+                <a href="../Profile/profile.html" class="profile-circle" id="userProfileLink">
+                    <!-- Placeholder for actual profile picture -->
+                    <img id="headerProfilePic" src="https://placehold.co/32x32/6366F1/FFFFFF?text=P" alt="Profile">
+                </a>
             </div>
         </div>
 
@@ -358,7 +482,7 @@
                     <p>Get notified when a task is assigned to you.</p>
                 </div>
                 <label class="toggle-switch">
-                    <input type="checkbox">
+                    <input type="checkbox" id="toggleTaskAssignment">
                     <span class="slider"></span>
                 </label>
             </div>
@@ -368,7 +492,7 @@
                     <p>Receive alerts when potential ethical concerns are flagged in meeting notes.</p>
                 </div>
                 <label class="toggle-switch">
-                    <input type="checkbox">
+                    <input type="checkbox" id="toggleEthicsFlag">
                     <span class="slider"></span>
                 </label>
             </div>
@@ -378,7 +502,7 @@
                     <p>Receive a weekly summary of your tasks and meeting insights.</p>
                 </div>
                 <label class="toggle-switch">
-                    <input type="checkbox" checked>
+                    <input type="checkbox" id="toggleWeeklySummaries" checked>
                     <span class="slider"></span>
                 </label>
             </div>
@@ -388,7 +512,7 @@
                     <p>Choose how you receive notes from meetings you attend.</p>
                 </div>
                 <label class="toggle-switch">
-                    <input type="checkbox">
+                    <input type="checkbox" id="toggleMeetingNoteFormat">
                     <span class="slider"></span>
                 </label>
             </div>
@@ -403,7 +527,7 @@
                     <p>Sync your calendar to automatically import meetings.</p>
                 </div>
                 <label class="toggle-switch">
-                    <input type="checkbox">
+                    <input type="checkbox" id="toggleCalendarSync">
                     <span class="slider"></span>
                 </label>
             </div>
@@ -413,7 +537,7 @@
                     <p>Connect your video conferencing tool for seamless meeting note capture.</p>
                 </div>
                 <label class="toggle-switch">
-                    <input type="checkbox">
+                    <input type="checkbox" id="toggleVideoConferencing">
                     <span class="slider"></span>
                 </label>
             </div>
@@ -422,7 +546,7 @@
                     <h4>Work Tools</h4>
                     <p>Integrate with your work tools for task management and collaboration.</p>
                 </div>
-                <button class="manage-apps-btn">Manage Connected Apps</button>
+                <button class="manage-apps-btn" onclick="showMessageBox('Manage Integrations', 'This action would navigate you to a page to manage your connected applications.')">Manage Connected Apps</button>
             </div>
         </div>
 
@@ -435,7 +559,7 @@
                     <p>Add an extra layer of security to your account.</p>
                 </div>
                 <label class="toggle-switch">
-                    <input type="checkbox" checked>
+                    <input type="checkbox" id="toggleTwoFactorAuth" checked>
                     <span class="slider"></span>
                 </label>
             </div>
@@ -444,21 +568,21 @@
                     <h4>Activity Log</h4>
                     <p>View a log of your account activity.</p>
                 </div>
-                <button class="action-btn">View</button>
+                <button class="action-btn" onclick="showMessageBox('Activity Log', 'This would open your account activity log.')">View</button>
             </div>
             <div class="setting-item">
                 <div class="setting-item-text">
                     <h4>Data Export Request</h4>
                     <p>Request a copy of your data.</p>
                 </div>
-                <button class="action-btn">Request</button>
+                <button class="action-btn" onclick="showMessageBox('Data Export Request', 'This would initiate a data export process.')">Request</button>
             </div>
             <div class="setting-item">
                 <div class="setting-item-text">
                     <h4>Ethics Report Visibility</h4>
                     <p>Control who can see your ethics reports.</p>
                 </div>
-                <button class="action-btn">Manage</button>
+                <button class="action-btn" onclick="showMessageBox('Ethics Report Visibility', 'This would open settings to manage ethics report visibility.')">Manage</button>
             </div>
         </div>
 
@@ -468,21 +592,21 @@
             <div class="account-settings-input-group">
                 <label for="emailAccount">Email</label>
                 <div class="account-settings-input-wrapper">
-                    <input type="email" id="emailAccount" value="email@example.com" readonly>
+                    <input type="email" id="emailAccount">
                 </div>
             </div>
             <div class="account-settings-input-group">
                 <label for="changePassword">Change Password</label>
                 <div class="account-settings-input-wrapper">
-                    <input type="password" id="changePassword" value="password123" readonly>
-                    <button class="action-btn">Change</button>
+                    <input type="password" id="passwordDisplay" value="********" readonly>
+                    <button class="action-btn" onclick="openPasswordChangeModal()">Change</button>
                 </div>
             </div>
             <div class="account-settings-input-group">
                 <label for="languagePreference">Language Preference</label>
                 <div class="account-settings-input-wrapper">
                     <select id="languagePreference">
-                        <option value="english" selected>English</option>
+                        <option value="english">English</option>
                         <option value="spanish">Spanish</option>
                         <option value="french">French</option>
                     </select>
@@ -492,13 +616,16 @@
                 <label for="timezoneSettings">Time Zone</label>
                 <div class="account-settings-input-wrapper">
                     <select id="timezoneSettings">
-                        <option value="GMT+00:00" selected>(GMT+00:00) Accra</option>
+                        <option value="GMT+00:00">(GMT+00:00) Accra</option>
                         <option value="GMT-05:00">Eastern Time (US & Canada)</option>
                         <option value="GMT+01:00">Central European Time</option>
                         <option value="GMT-08:00">Pacific Time (US & Canada)</option>
                         <option value="GMT+05:30">Indian Standard Time</option>
                     </select>
                 </div>
+            </div>
+            <div class="flex justify-end mt-4">
+                <button class="save-changes-btn" onclick="saveAccountSettings()">Save Changes</button>
             </div>
         </div>
     </div>
@@ -511,6 +638,30 @@
             <button id="messageBoxOkBtn">OK</button>
         </div>
     </div>
+
+    <!-- Password Change Modal -->
+    <div id="passwordChangeModal" class="message-box-overlay">
+        <div class="message-box">
+            <h4>Change Password</h4>
+            <div class="mb-4 text-left">
+                <label for="current-password" class="text-sm font-medium text-gray-700">Current Password</label>
+                <input type="password" id="current-password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            </div>
+            <div class="mb-4 text-left">
+                <label for="new-password" class="text-sm font-medium text-gray-700">New Password</label>
+                <input type="password" id="new-password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            </div>
+            <div class="mb-6 text-left">
+                <label for="confirm-new-password" class="text-sm font-medium text-gray-700">Confirm New Password</label>
+                <input type="password" id="confirm-new-password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            </div>
+            <div class="flex justify-end space-x-2">
+                <button class="action-btn" onclick="closeModal('passwordChangeModal')">Cancel</button>
+                <button class="save-changes-btn" onclick="confirmPasswordChange()">Confirm Change</button>
+            </div>
+        </div>
+    </div>
+
 
     <script>
         // --- Message Box Functions ---
@@ -527,6 +678,11 @@
             }
         });
 
+        // Replaced browser's alert with custom message box
+        window.alert = function(message) {
+            showMessageBox('Alert', message);
+        };
+
         function showMessageBox(title, content, callback = null) {
             messageBoxTitle.innerHTML = title;
             messageBoxContent.innerHTML = content;
@@ -538,9 +694,138 @@
             messageBoxOverlay.classList.remove('visible');
         }
 
-        // --- Event Listeners for Settings Page Elements ---
+        // --- Generic Modal Functions ---
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('visible');
+        }
 
-        // Handle Toggle Switches
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('visible');
+        }
+
+        // --- Back Button Functionality ---
+        function handleBackButtonClick() {
+            console.log("Back button clicked. Navigating back to ../another-folder/main3.html.");
+            // Navigate to main3.html in a parent directory's "another-folder"
+            window.location.href = '../another-folder/main3.html';
+        }
+
+        // --- Theme Toggle Functionality ---
+        function applyTheme(theme) {
+            const body = document.body;
+            const themeToggleBtn = document.getElementById('themeToggle');
+            if (theme === 'dark') {
+                body.classList.add('dark-theme');
+                themeToggleBtn.innerHTML = '☀️'; // Sun icon for dark mode
+            } else {
+                body.classList.remove('dark-theme');
+                themeToggleBtn.innerHTML = '🌙'; // Moon icon for light mode
+            }
+            // Save theme preference to localStorage
+            localStorage.setItem('themePreference', theme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = localStorage.getItem('themePreference') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            applyTheme(newTheme);
+        }
+
+        // --- Header Navigation Links ---
+        document.getElementById('homeButton').addEventListener('click', () => {
+            window.location.href = '../main3.html'; // Link to ../main3.html
+        });
+        document.getElementById('userProfileLink').addEventListener('click', () => {
+            // Adjust this path if your user profile page is named differently or located elsewhere
+            window.location.href = '../Profile/profile.html';
+        });
+
+        // --- Settings Persistence & Loading ---
+
+        // Function to load all settings from localStorage
+        function loadAllSettings() {
+            // Load Notifications & Integrations toggles
+            const toggleSettings = JSON.parse(localStorage.getItem('toggleSettings')) || {};
+            document.getElementById('toggleTaskAssignment').checked = toggleSettings.toggleTaskAssignment || false;
+            document.getElementById('toggleEthicsFlag').checked = toggleSettings.toggleEthicsFlag || false;
+            document.getElementById('toggleWeeklySummaries').checked = toggleSettings.toggleWeeklySummaries !== undefined ? toggleSettings.toggleWeeklySummaries : true;
+            document.getElementById('toggleMeetingNoteFormat').checked = toggleSettings.toggleMeetingNoteFormat || false;
+            document.getElementById('toggleCalendarSync').checked = toggleSettings.toggleCalendarSync || false;
+            document.getElementById('toggleVideoConferencing').checked = toggleSettings.toggleVideoConferencing || false;
+            document.getElementById('toggleTwoFactorAuth').checked = toggleSettings.toggleTwoFactorAuth !== undefined ? toggleSettings.toggleTwoFactorAuth : true;
+
+            // Load Account Settings
+            const accountSettings = JSON.parse(localStorage.getItem('accountSettings')) || {};
+            document.getElementById('emailAccount').value = accountSettings.emailAccount || 'email@example.com';
+            document.getElementById('languagePreference').value = accountSettings.languagePreference || 'english';
+            document.getElementById('timezoneSettings').value = accountSettings.timezoneSettings || 'GMT+00:00';
+            // Password is not loaded for security reasons, it's just a display placeholder
+        }
+
+        // Function to save all settings to localStorage
+        function saveAllSettings() {
+            // Save Notifications & Integrations toggles
+            const toggleSettings = {
+                toggleTaskAssignment: document.getElementById('toggleTaskAssignment').checked,
+                toggleEthicsFlag: document.getElementById('toggleEthicsFlag').checked,
+                toggleWeeklySummaries: document.getElementById('toggleWeeklySummaries').checked,
+                toggleMeetingNoteFormat: document.getElementById('toggleMeetingNoteFormat').checked,
+                toggleCalendarSync: document.getElementById('toggleCalendarSync').checked,
+                toggleVideoConferencing: document.getElementById('toggleVideoConferencing').checked,
+                toggleTwoFactorAuth: document.getElementById('toggleTwoFactorAuth').checked
+            };
+            localStorage.setItem('toggleSettings', JSON.stringify(toggleSettings));
+
+            // Save Account Settings (excluding password input value)
+            const accountSettings = {
+                emailAccount: document.getElementById('emailAccount').value,
+                languagePreference: document.getElementById('languagePreference').value,
+                timezoneSettings: document.getElementById('timezoneSettings').value
+            };
+            localStorage.setItem('accountSettings', JSON.stringify(accountSettings));
+
+            showMessageBox('Settings Saved', 'Your settings have been saved successfully!', () => {
+                console.log('All settings saved to local storage.');
+            });
+        }
+
+        // --- Account Settings Specific Functions ---
+        function saveAccountSettings() {
+            saveAllSettings(); // This button now triggers a full save of all settings
+        }
+
+        function openPasswordChangeModal() {
+            openModal('passwordChangeModal');
+            // Clear password fields when opening the modal for a new input
+            document.getElementById('current-password').value = '';
+            document.getElementById('new-password').value = '';
+            document.getElementById('confirm-new-password').value = '';
+        }
+
+        function confirmPasswordChange() {
+            const currentPassword = document.getElementById('current-password').value;
+            const newPassword = document.getElementById('new-password').value;
+            const confirmNewPassword = document.getElementById('confirm-new-password').value;
+
+            if (newPassword !== confirmNewPassword) {
+                showMessageBox('Password Mismatch', 'New passwords do not match. Please try again.');
+                return;
+            }
+            if (!currentPassword || !newPassword || !confirmNewPassword) {
+                showMessageBox('Missing Fields', 'Please fill in all password fields.');
+                return;
+            }
+
+            // Simulate password change success
+            showMessageBox('Password Changed', 'Your password has been changed successfully (simulated)!', () => {
+                console.log("Password changed successfully (simulated).");
+                closeModal('passwordChangeModal');
+            });
+        }
+
+        // --- Event Listeners for Dynamic Elements ---
+
+        // Handle Toggle Switches changes
         document.querySelectorAll('.toggle-switch input[type="checkbox"]').forEach(toggle => {
             toggle.addEventListener('change', (event) => {
                 const settingItem = event.target.closest('.setting-item');
@@ -548,50 +833,24 @@
                 const settingName = settingNameElement ? settingNameElement.textContent : 'Unknown Setting';
                 const status = event.target.checked ? 'enabled' : 'disabled';
                 console.log(`${settingName} is now ${status}.`);
-                // In a real application, you would update the backend with this setting change.
+                saveAllSettings(); // Save state immediately when a toggle changes
             });
         });
 
-        // Handle Action Buttons (View, Request, Manage, Change)
-        document.querySelectorAll('.action-btn, .manage-apps-btn').forEach(button => {
-            button.addEventListener('click', (event) => {
-                const buttonText = event.currentTarget.textContent.trim();
-                let messageTitle = 'Action Triggered';
-                let messageContent = `You clicked the "${buttonText}" button. This would trigger a specific action in a real application.`;
+        // Handle Action Buttons (View, Request, Manage) - already done with onclick in HTML
 
-                if (buttonText === 'Manage Connected Apps') {
-                    messageTitle = 'Manage Integrations';
-                    messageContent = 'This action would navigate you to a page to manage your connected applications.';
-                } else if (buttonText === 'Change') {
-                    messageTitle = 'Change Password';
-                    messageContent = 'This would typically open a password change form or modal.';
-                }
+        // Handle Theme Toggle Button
+        document.getElementById('themeToggle').addEventListener('click', toggleTheme);
 
-                showMessageBox(messageTitle, messageContent, () => {
-                    console.log(`Button clicked: ${buttonText}`);
-                });
-            });
+
+        // --- Initial Load Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Apply saved theme first to prevent flash of unstyled content
+            const savedTheme = localStorage.getItem('themePreference') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            applyTheme(savedTheme);
+
+            loadAllSettings(); // Load all other settings
         });
-        
-
-        // Handle Top Navigation Icons
-        document.querySelectorAll('.top-nav .user-icons button').forEach(button => {
-            button.addEventListener('click', (event) => {
-                const iconClass = event.currentTarget.querySelector('i').classList[1];
-                let action = '';
-                if (iconClass.includes('search')) {
-                    action = 'Search';
-                } else if (iconClass.includes('moon')) {
-                    action = 'Toggle Dark Mode';
-                } else if (iconClass.includes('bell')) {
-                    action = 'View Notifications';
-                }
-                showMessageBox('Navigation Action', `You clicked the "${action}" icon.`, () => {
-                    console.log(`Nav icon clicked: ${action}`);
-                });
-            });
-        });
-
     </script>
 </body>
 </html>
