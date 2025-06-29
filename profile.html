@@ -7,160 +7,818 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts - Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Lucide Icons for modern, crisp icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/lucide.min.js"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0f2f5; /* Light gray background */
+            background-color: #F8F9FB; /* Light background matching Figma */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to top for better content flow */
+            min-height: 100vh;
+            margin: 0;
+            padding: 1rem; /* Adjusted padding for better mobile responsiveness */
+            box-sizing: border-box;
+            transition: background-color 0.3s ease-in-out; /* Smooth transition for theme change */
         }
-        .profile-container {
-            max-width: 800px;
-            margin: 2rem auto;
-            background-color: #ffffff;
-            border-radius: 0.75rem; /* Rounded corners */
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Subtle shadow */
-            padding: 2rem;
+
+        body.dark-theme {
+            background-color: #1a202c; /* Dark background for dark mode */
+            color: #e2e8f0; /* Lighter text for dark mode */
         }
+
+        body.dark-theme .profile-card {
+            background-color: #2d3748; /* Darker card for dark mode */
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark-theme .text-gray-900 { color: #e2e8f0; }
+        body.dark-theme .text-gray-800 { color: #cbd5e0; }
+        body.dark-theme .text-gray-700 { color: #a0aec0; }
+        body.dark-theme .text-gray-600 { color: #718096; }
+        body.dark-theme .text-gray-500 { color: #4a5568; }
+        body.dark-theme .label-text { color: #cbd5e0; }
+        body.dark-theme .section-heading { border-color: #4a5568; }
+        body.dark-theme .border-gray-200 { border-color: #4a5568; }
+        body.dark-theme .bg-gray-50 { background-color: #4a5568; }
+        body.dark-theme .input-field {
+            background-color: #2d3748;
+            border-color: #4a5568;
+            color: #e2e8f0;
+            /* Placeholder color for dark theme */
+            opacity: 0.7; /* Make placeholder slightly transparent */
+        }
+        body.dark-theme .input-field::placeholder { /* Direct placeholder styling */
+            color: #a0aec0;
+            opacity: 1; /* Ensure opacity for pseudo-element */
+        }
+        body.dark-theme .input-field:focus {
+             border-color: #6366F1;
+             ring-color: #6366F1;
+        }
+        body.dark-theme .toggle-slider { background-color: #4a5568; }
+        body.dark-theme .toggle-slider:before { background-color: #cbd5e0; }
+        body.dark-theme input:checked + .toggle-slider { background-color: #4f46e5; } /* Darker indigo for toggle */
+        body.dark-theme .modal-content { background-color: #2d3748; }
+
+
+        /* Custom styles for the profile container to match Figma's look */
+        .profile-card {
+            background-color: #FFFFFF;
+            border-radius: 12px; /* More pronounced rounded corners */
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06); /* Softer, deeper shadow */
+            padding: 1.5rem; /* Adjusted padding for better mobile responsiveness */
+            width: 100%;
+            max-width: 900px; /* Adjust max-width based on Figma image */
+            box-sizing: border-box;
+            transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        @media (min-width: 640px) { /* sm breakpoint */
+            .profile-card {
+                padding: 2.5rem; /* Original padding for larger screens */
+            }
+            body {
+                padding: 2rem;
+            }
+        }
+
         .input-field {
-            @apply border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200;
+            /* Custom styling for inputs to match Figma's subtle look */
+            @apply border border-gray-200 rounded-lg p-3 w-full text-gray-800 placeholder-gray-400
+                   focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500
+                   transition duration-200 ease-in-out;
         }
+
         .section-heading {
-            @apply text-xl font-semibold text-gray-800 mb-4 border-b pb-2 border-gray-200;
+            /* Styling for section headings */
+            @apply text-xl font-semibold text-gray-900 mb-6 mt-8; /* Larger margin-bottom for separation */
         }
-        .label {
-            @apply block text-sm font-medium text-gray-700 mb-1;
+
+        .label-text {
+            /* Styling for input labels */
+            @apply block text-sm font-medium text-gray-700 mb-2;
+        }
+
+        .action-button {
+            @apply px-4 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-medium rounded-lg
+                   transition duration-200 ease-in-out text-sm;
+        }
+
+        .disconnect-button {
+            @apply px-4 py-2 text-indigo-600 hover:text-indigo-800 font-medium rounded-lg
+                   transition duration-200 ease-in-out text-sm;
+        }
+
+        .connect-button {
+            @apply px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg
+                   transition duration-200 ease-in-out text-sm shadow-md;
+        }
+
+        /* Style for the back button SVG */
+        .back-icon {
+            stroke-width: 2.5; /* Make the arrow thicker */
+        }
+
+        /* Hover and active effects for the back button */
+        .back-button-effect {
+            @apply transform transition-all duration-200 ease-in-out
+                   hover:translate-x-[-4px] hover:text-indigo-600
+                   active:scale-95 active:brightness-125; /* Added active state for click animation */
+        }
+
+        /* Hide content sections by default */
+        .content-section {
+            display: none;
+        }
+
+        /* Active content section */
+        .content-section.active {
+            display: block;
+        }
+
+        /* Button to mimic Figma's toggle switch */
+        .toggle-switch-container {
+            position: relative;
+            display: inline-block;
+            width: 44px; /* Wider to match Figma */
+            height: 24px; /* Taller to match Figma */
+        }
+
+        .toggle-switch-container input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 24px; /* Full rounded corners */
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px; /* Slightly smaller than container height */
+            width: 20px; /* Slightly smaller than container width */
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 50%; /* Make it a circle */
+        }
+
+        input:checked + .toggle-slider {
+            background-color: #6366F1; /* Indigo color when checked */
+        }
+
+        input:focus + .toggle-slider {
+            box-shadow: 0 0 1px #6366F1;
+        }
+
+        input:checked + .toggle-slider:before {
+            -webkit-transform: translateX(20px); /* Move slider to the right */
+            -ms-transform: translateX(20px);
+            transform: translateX(20px);
+        }
+
+        /* Modal styles */
+        .modal {
+            position: fixed;
+            z-index: 1000; /* High z-index to appear on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto; /* Enable scroll if content is too long */
+            background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto; /* Center the modal vertically and horizontally */
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px; /* Max width for the modal */
+        }
+
+        /* Hide the modal by default */
+        .modal.hidden {
+            display: none;
         }
     </style>
 </head>
 <body class="p-4">
 
-    <div class="profile-container">
-        <h1 class="text-3xl font-bold text-gray-900 mb-6 text-center">Profile</h1>
+    <div class="profile-card">
+        <!-- Header with Back Button and Title -->
+        <div class="flex items-center justify-between mb-8">
+            <button onclick="handleBackButtonClick()" class="flex items-center text-gray-600 hover:text-gray-900 transition duration-200 back-button-effect">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="back-icon lucide lucide-arrow-left">
+                    <path d="m12 19-7-7 7-7"/>
+                    <path d="M19 12H5"/>
+                </svg>
+                <span class="ml-2 font-medium">Back</span>
+            </button>
+            <h1 class="text-3xl font-extrabold text-gray-900 text-center flex-grow">Profile</h1>
+            <!-- Placeholder for right-aligned elements if any, to keep title centered -->
+            <div class="w-24 hidden sm:block"></div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="flex flex-wrap border-b border-gray-200 mb-8">
+            <button id="tab-basic-info" class="tab-button flex-grow sm:flex-grow-0 px-4 py-3 text-sm sm:text-lg font-medium text-indigo-600 border-b-2 border-indigo-600 focus:outline-none active-tab" onclick="showSection('basic-info')">Basic Info</button>
+            <button id="tab-preferences" class="tab-button flex-grow sm:flex-grow-0 px-4 py-3 text-sm sm:text-lg font-medium text-gray-600 hover:text-gray-900 focus:outline-none" onclick="showSection('preferences')">Preferences</button>
+            <button id="tab-connected-accounts" class="tab-button flex-grow sm:flex-grow-0 px-4 py-3 text-sm sm:text-lg font-medium text-gray-600 hover:text-gray-900 focus:outline-none" onclick="showSection('connected-accounts')">Connected Accounts</button>
+            <button id="tab-quick-actions" class="tab-button flex-grow sm:flex-grow-0 px-4 py-3 text-sm sm:text-lg font-medium text-gray-600 hover:text-gray-900 focus:outline-none" onclick="showSection('quick-actions')">Quick Actions</button>
+        </div>
+
 
         <!-- Basic Info Section -->
-        <div class="mb-8">
+        <div id="section-basic-info" class="content-section active">
             <h2 class="section-heading">Basic Info</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
-                    <label for="first-name" class="label">First Name</label>
+                    <label for="first-name" class="label-text">First Name</label>
                     <input type="text" id="first-name" value="Data" class="input-field">
                 </div>
                 <div>
-                    <label for="last-name" class="label">Last Name</label>
+                    <label for="last-name" class="label-text">Last Name</label>
                     <input type="text" id="last-name" value="Jones" class="input-field">
                 </div>
             </div>
-            <div class="mb-4">
-                <label for="email" class="label">Email</label>
+            <div class="mb-6">
+                <label for="email" class="label-text">Email</label>
                 <input type="email" id="email" value="data.jones@example.com" class="input-field">
             </div>
-            <div class="mb-4">
-                <label for="job-title" class="label">Job Title</label>
+            <div class="mb-6">
+                <label for="job-title" class="label-text">Job Title</label>
                 <input type="text" id="job-title" value="Project Manager" class="input-field">
             </div>
-            <div class="mb-4">
-                <label for="profile-picture" class="label">Profile Picture</label>
-                <div class="flex items-center space-x-4">
-                    <img src="https://placehold.co/80x80/cccccc/333333?text=PJ" alt="Profile Picture" class="w-20 h-20 rounded-full object-cover border border-gray-200">
-                    <input type="file" id="profile-picture" class="text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 cursor-pointer">
+            <div class="mb-6">
+                <label for="profile-picture" class="label-text">Profile Picture</label>
+                <div class="flex items-center space-x-4 flex-wrap gap-y-4">
+                    <img id="profile-pic-preview" src="https://placehold.co/80x80/6366F1/FFFFFF?text=PJ" alt="Profile Picture" class="w-20 h-20 rounded-full object-cover border-4 border-indigo-200 shadow-md">
+                    <input type="file" id="profile-picture" accept="image/*" class="text-sm text-gray-500
+                                file:mr-4 file:py-2 file:px-4
+                                file:rounded-full file:border-0
+                                file:text-sm file:font-semibold
+                                file:bg-indigo-50 file:text-indigo-700
+                                hover:file:bg-indigo-100 cursor-pointer">
                 </div>
+            </div>
+            <div class="flex justify-end mt-8">
+                <button onclick="handleSaveBasicInfo()" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg shadow-md transition duration-200 ease-in-out transform hover:scale-105">
+                    Save Changes
+                </button>
             </div>
         </div>
 
         <!-- Preferences Section -->
-        <div class="mb-8">
+        <div id="section-preferences" class="content-section">
             <h2 class="section-heading">Preferences</h2>
-            <div class="mb-4">
-                <label for="data-retention" class="label">Data Retention</label>
-                <select id="data-retention" class="input-field">
-                    <option>30 Days</option>
-                    <option selected>90 Days</option>
-                    <option>1 Year</option>
-                    <option>Forever</option>
+            <div class="mb-6">
+                <label for="data-retention" class="label-text">Data Retention</label>
+                <select id="data-retention" class="input-field" onchange="handlePreferenceChange('data-retention')">
+                    <option value="30_days">30 Days</option>
+                    <option value="90_days" selected>90 Days</option>
+                    <option value="1_year">1 Year</option>
+                    <option value="forever">Forever</option>
                 </select>
             </div>
-            <div class="mb-4">
-                <label for="meeting-note-format" class="label">Meeting Note Format</label>
-                <select id="meeting-note-format" class="input-field">
-                    <option>Standard Markdown</option>
-                    <option selected>Bullet Points</option>
-                    <option>Detailed Summary</option>
+            <div class="mb-6">
+                <label for="meeting-note-format" class="label-text">Meeting Note Format</label>
+                <select id="meeting-note-format" class="input-field" onchange="handlePreferenceChange('meeting-note-format')">
+                    <option value="standard_markdown">Standard Markdown</option>
+                    <option value="bullet_points" selected>Bullet Points</option>
+                    <option value="detailed_summary">Detailed Summary</option>
                 </select>
             </div>
-            <div class="mb-4">
-                <label for="task-reminder-frequency" class="label">Task Reminder Frequency</label>
-                <select id="task-reminder-frequency" class="input-field">
-                    <option>Daily</option>
-                    <option selected>Weekly</option>
-                    <option>Bi-Weekly</option>
-                    <option>Monthly</option>
+            <div class="mb-6">
+                <label for="task-reminder-frequency" class="label-text">Task Reminder Frequency</label>
+                <select id="task-reminder-frequency" class="input-field" onchange="handlePreferenceChange('task-reminder-frequency')">
+                    <option value="daily">Daily</option>
+                    <option value="weekly" selected>Weekly</option>
+                    <option value="bi_weekly">Bi-Weekly</option>
+                    <option value="monthly">Monthly</option>
                 </select>
             </div>
-            <div class="mb-4">
-                <label for="theme" class="label">Theme</label>
-                <select id="theme" class="input-field">
-                    <option selected>Light</option>
-                    <option>Dark</option>
-                    <option>System Default</option>
+            <div class="mb-6">
+                <label for="theme" class="label-text">Theme</label>
+                <select id="theme" class="input-field" onchange="handlePreferenceChange('theme')">
+                    <option value="light" selected>Light</option>
+                    <option value="dark">Dark</option>
+                    <option value="system_default">System Default</option>
                 </select>
+            </div>
+            <div class="mb-6 flex items-center justify-between">
+                <label for="email-notifications" class="label-text mb-0">Email Notifications</label>
+                <label class="toggle-switch-container">
+                    <input type="checkbox" id="email-notifications" checked onchange="handlePreferenceChange('email-notifications')">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <div class="flex justify-end mt-8">
+                <button onclick="handleSavePreferences()" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg shadow-md transition duration-200 ease-in-out transform hover:scale-105">
+                    Save Preferences
+                </button>
             </div>
         </div>
 
         <!-- Connected Accounts Section -->
-        <div class="mb-8">
+        <div id="section-connected-accounts" class="content-section">
             <h2 class="section-heading">Connected Accounts</h2>
             <div class="space-y-4">
-                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-md border border-gray-200">
-                    <div class="flex items-center space-x-3">
-                        <i class="fab fa-google text-lg text-blue-500"></i>
-                        <span class="text-gray-700">Google</span>
+                <div id="account-google" class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200">
+                    <div class="flex items-center space-x-3 mb-2 sm:mb-0">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google Logo" class="w-6 h-6">
+                        <span class="text-gray-800 font-medium">Google</span>
                     </div>
-                    <span class="text-green-600 font-medium text-sm">Connected</span>
-                    <button class="text-indigo-600 hover:text-indigo-800 transition duration-200 text-sm">Disconnect</button>
+                    <span class="account-status text-green-600 font-medium text-sm mb-2 sm:mb-0">Connected</span>
+                    <button onclick="openAccountActionModal('google', 'disconnect')" class="disconnect-button">Disconnect</button>
+                    <button onclick="openAccountActionModal('google', 'connect')" class="connect-button hidden">Connect</button>
                 </div>
-                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-md border border-gray-200">
-                    <div class="flex items-center space-x-3">
-                        <i class="fab fa-slack text-lg text-red-500"></i>
-                        <span class="text-gray-700">Slack</span>
+                <div id="account-slack" class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200">
+                    <div class="flex items-center space-x-3 mb-2 sm:mb-0">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Slack_icon.svg" alt="Slack Logo" class="w-6 h-6">
+                        <span class="text-gray-800 font-medium">Slack</span>
                     </div>
-                    <span class="text-green-600 font-medium text-sm">Connected</span>
-                    <button class="text-indigo-600 hover:text-indigo-800 transition duration-200 text-sm">Disconnect</button>
+                    <span class="account-status text-green-600 font-medium text-sm mb-2 sm:mb-0">Connected</span>
+                    <button onclick="openAccountActionModal('slack', 'disconnect')" class="disconnect-button">Disconnect</button>
+                    <button onclick="openAccountActionModal('slack', 'connect')" class="connect-button hidden">Connect</button>
                 </div>
-                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-md border border-gray-200">
-                    <div class="flex items-center space-x-3">
-                        <i class="fab fa-microsoft text-lg text-green-600"></i>
-                        <span class="text-gray-700">MS Teams</span>
+                <div id="account-msteams" class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200">
+                    <div class="flex items-center space-x-3 mb-2 sm:mb-0">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Microsoft_Office_Teams_logo_%282018%E2%80%93present%29.svg/1200px-Microsoft_Office_Teams_logo_%282018%E2%80%93present%29.svg.png" alt="MS Teams Logo" class="w-6 h-6">
+                        <span class="text-gray-800 font-medium">MS Teams</span>
                     </div>
-                    <span class="text-gray-500 text-sm">Not Connected</span>
-                    <button class="text-indigo-600 hover:text-indigo-800 transition duration-200 text-sm">Connect</button>
+                    <span class="account-status text-gray-500 text-sm mb-2 sm:mb-0">Not Connected</span>
+                    <button onclick="openAccountActionModal('msteams', 'disconnect')" class="disconnect-button hidden">Disconnect</button>
+                    <button onclick="openAccountActionModal('msteams', 'connect')" class="connect-button">Connect</button>
                 </div>
             </div>
         </div>
 
         <!-- Quick Actions Section -->
-        <div>
+        <div id="section-quick-actions" class="content-section">
             <h2 class="section-heading">Quick Actions</h2>
             <div class="space-y-4">
-                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-md border border-gray-200">
-                    <div class="flex items-center space-x-3">
-                        <i class="fas fa-key text-lg text-gray-600"></i>
-                        <span class="text-gray-700">Change Password</span>
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200">
+                    <div class="flex items-center space-x-3 mb-2 sm:mb-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-key text-gray-600"><path d="M2 18v3c0 .6.4 1 1 1h4v-3h3v-3h2l1.4-1.4a6.5 6.5 0 1 0-4-4Z"/><path d="M2.5 7.5 7.9 2.1"/><path d="m15 9 3 3H22l-5-5-3-3v4l-3 3z"/></svg>
+                        <span class="text-gray-800 font-medium">Change Password</span>
                     </div>
-                    <button class="text-indigo-600 hover:text-indigo-800 transition duration-200 text-sm">Change</button>
+                    <button onclick="openModal('changePasswordModal')" class="action-button">Change</button>
                 </div>
-                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-md border border-gray-200">
-                    <div class="flex items-center space-x-3">
-                        <i class="fas fa-sign-out-alt text-lg text-gray-600"></i>
-                        <span class="text-gray-700">Sign Out All Devices</span>
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200">
+                    <div class="flex items-center space-x-3 mb-2 sm:mb-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out text-gray-600"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+                        <span class="text-gray-800 font-medium">Sign Out All Devices</span>
                     </div>
-                    <button class="text-indigo-600 hover:text-indigo-800 transition duration-200 text-sm">Sign Out</button>
+                    <button onclick="openModal('signOutModal')" class="action-button">Sign Out</button>
+                </div>
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200">
+                    <div class="flex items-center space-x-3 mb-2 sm:mb-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash text-red-500"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                        <span class="text-red-600 font-medium">Delete Account</span>
+                    </div>
+                    <button onclick="openModal('deleteAccountModal')" class="action-button bg-red-50 hover:bg-red-100 text-red-700">Delete</button>
                 </div>
             </div>
         </div>
-
     </div>
 
+    <!-- Modals for Quick Actions -->
+
+    <!-- Change Password Modal -->
+    <div id="changePasswordModal" class="modal hidden">
+        <div class="modal-content">
+            <h3 class="text-2xl font-semibold mb-6 text-gray-900">Change Password</h3>
+            <div class="mb-4">
+                <label for="current-password" class="label-text">Current Password</label>
+                <input type="password" id="current-password" class="input-field">
+            </div>
+            <div class="mb-4">
+                <label for="new-password" class="label-text">New Password</label>
+                <input type="password" id="new-password" class="input-field">
+            </div>
+            <div class="mb-6">
+                <label for="confirm-new-password" class="label-text">Confirm New Password</label>
+                <input type="password" id="confirm-new-password" class="input-field">
+            </div>
+            <div class="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 mt-4">
+                <button onclick="closeModal('changePasswordModal')" class="action-button w-full sm:w-auto">Cancel</button>
+                <button onclick="confirmChangePassword()" class="connect-button w-full sm:w-auto">Confirm Change</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sign Out All Devices Modal -->
+    <div id="signOutModal" class="modal hidden">
+        <div class="modal-content">
+            <h3 class="text-2xl font-semibold mb-6 text-gray-900">Sign Out All Devices</h3>
+            <p class="text-gray-700 mb-6">Are you sure you want to sign out from all your devices? You will need to log back in on each device.</p>
+            <div class="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 mt-4">
+                <button onclick="closeModal('signOutModal')" class="action-button w-full sm:w-auto">Cancel</button>
+                <button onclick="confirmSignOutAllDevices()" class="connect-button bg-red-600 hover:bg-red-700 w-full sm:w-auto">Confirm Sign Out</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Account Modal -->
+    <div id="deleteAccountModal" class="modal hidden">
+        <div class="modal-content">
+            <h3 class="text-2xl font-semibold mb-6 text-red-700">Delete Account</h3>
+            <p class="text-gray-700 mb-6">This action cannot be undone. All your data will be permanently deleted. Are you absolutely sure?</p>
+            <div class="mb-4">
+                <label for="delete-confirmation-text" class="label-text">Type "DELETE" to confirm</label>
+                <input type="text" id="delete-confirmation-text" class="input-field border-red-300 focus:border-red-500 focus:ring-red-500">
+            </div>
+            <div class="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 mt-4">
+                <button onclick="closeModal('deleteAccountModal')" class="action-button w-full sm:w-auto">Cancel</button>
+                <button onclick="confirmDeleteAccount()" class="connect-button bg-red-600 hover:bg-red-700 w-full sm:w-auto">Confirm Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Generic Account Action Modal -->
+    <div id="accountActionModal" class="modal hidden">
+        <div class="modal-content">
+            <h3 id="accountActionModalTitle" class="text-2xl font-semibold mb-6 text-gray-900"></h3>
+            <p id="accountActionModalMessage" class="text-gray-700 mb-6"></p>
+            <div class="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 mt-4">
+                <button onclick="closeModal('accountActionModal')" class="action-button w-full sm:w-auto">Cancel</button>
+                <button id="accountActionConfirmBtn" class="connect-button w-full sm:w-auto"></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Object to hold account connection statuses (simulated state)
+        // Load initial states from localStorage if available, otherwise use defaults
+        const accountStatuses = JSON.parse(localStorage.getItem('accountStatuses')) || {
+            google: 'connected',
+            slack: 'connected',
+            msteams: 'not_connected'
+        };
+
+        // Function to update the UI for a specific connected account row
+        function updateAccountUI(accountName) {
+            const accountElement = document.getElementById(`account-${accountName}`);
+            if (!accountElement) return; // Guard against element not found
+
+            const statusSpan = accountElement.querySelector('.account-status');
+            const disconnectButton = accountElement.querySelector('.disconnect-button');
+            const connectButton = accountElement.querySelector('.connect-button');
+
+            if (accountStatuses[accountName] === 'connected') {
+                statusSpan.textContent = 'Connected';
+                statusSpan.classList.remove('text-gray-500');
+                statusSpan.classList.add('text-green-600');
+                disconnectButton.classList.remove('hidden');
+                connectButton.classList.add('hidden');
+            } else {
+                statusSpan.textContent = 'Not Connected';
+                statusSpan.classList.remove('text-green-600');
+                statusSpan.classList.add('text-gray-500');
+                disconnectButton.classList.add('hidden');
+                connectButton.classList.remove('hidden');
+            }
+            // Save state to localStorage after each UI update
+            localStorage.setItem('accountStatuses', JSON.stringify(accountStatuses));
+        }
+
+        // Initialize all account UIs on page load
+        function initializeAccountUIs() {
+            for (const account in accountStatuses) {
+                updateAccountUI(account);
+            }
+        }
+
+        // Function to handle showing different sections based on tab clicks
+        function showSection(sectionId) {
+            // Remove active state from all content sections and tab buttons
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active-tab', 'border-indigo-600', 'text-indigo-600');
+                button.classList.add('text-gray-600', 'hover:text-gray-900', 'border-transparent');
+            });
+
+            // Add active state to the selected content section and tab button
+            document.getElementById(`section-${sectionId}`).classList.add('active');
+            document.getElementById(`tab-${sectionId}`).classList.add('active-tab', 'border-indigo-600', 'text-indigo-600');
+            document.getElementById(`tab-${sectionId}`).classList.remove('text-gray-600', 'hover:text-gray-900', 'border-transparent');
+        }
+
+        // --- Generic Modal Functions ---
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        // --- Specific Action Modal Handlers ---
+
+        // Function to open the generic account action modal
+        function openAccountActionModal(account, actionType) {
+            const modalTitle = document.getElementById('accountActionModalTitle');
+            const modalMessage = document.getElementById('accountActionModalMessage');
+            const confirmBtn = document.getElementById('accountActionConfirmBtn');
+
+            modalTitle.textContent = `${actionType === 'connect' ? 'Connect' : 'Disconnect'} ${account.charAt(0).toUpperCase() + account.slice(1)} Account`;
+            modalMessage.textContent = `Are you sure you want to ${actionType} your ${account.charAt(0).toUpperCase() + account.slice(1)} account?`;
+
+            confirmBtn.textContent = `${actionType === 'connect' ? 'Confirm Connect' : 'Confirm Disconnect'}`;
+            confirmBtn.onclick = () => {
+                if (actionType === 'connect') {
+                    handleConnectAccount(account);
+                } else {
+                    handleDisconnectAccount(account);
+                }
+                closeModal('accountActionModal');
+            };
+
+            // Apply appropriate button styling
+            if (actionType === 'connect') {
+                confirmBtn.classList.remove('bg-red-600', 'hover:bg-red-700');
+                confirmBtn.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
+            } else {
+                confirmBtn.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+                confirmBtn.classList.add('bg-red-600', 'hover:bg-red-700');
+            }
+
+            openModal('accountActionModal');
+        }
+
+        // --- Core Action Functions ---
+
+        function handleBackButtonClick() {
+            console.log("Back button clicked. Navigating back to ../main3.html.");
+            // Navigate to main3.html in a parent directory's "another-folder"
+            window.location.href = '../main3.html';
+        }
+
+        function handleSaveBasicInfo() {
+            const firstName = document.getElementById('first-name').value;
+            const lastName = document.getElementById('last-name').value;
+            const email = document.getElementById('email').value;
+            const jobTitle = document.getElementById('job-title').value;
+            const profilePicture = document.getElementById('profile-pic-preview').src; // Get the currently displayed picture
+
+            // Store basic info in localStorage
+            localStorage.setItem('basicInfo', JSON.stringify({
+                firstName,
+                lastName,
+                email,
+                jobTitle,
+                profilePicture
+            }));
+
+            console.log("Saving Basic Info:", { firstName, lastName, email, jobTitle, profilePicture });
+            console.log("Basic information and profile picture saved successfully to local storage!");
+            alert("Basic information saved successfully!"); // User feedback
+        }
+
+        // Load basic info from localStorage on page load
+        function loadBasicInfo() {
+            const savedBasicInfo = JSON.parse(localStorage.getItem('basicInfo'));
+            if (savedBasicInfo) {
+                document.getElementById('first-name').value = savedBasicInfo.firstName || '';
+                document.getElementById('last-name').value = savedBasicInfo.lastName || '';
+                document.getElementById('email').value = savedBasicInfo.email || '';
+                document.getElementById('job-title').value = savedBasicInfo.jobTitle || '';
+                if (savedBasicInfo.profilePicture) {
+                    document.getElementById('profile-pic-preview').src = savedBasicInfo.profilePicture;
+                }
+            }
+        }
+
+
+        function handlePreferenceChange(id) {
+            const element = document.getElementById(id);
+            let value;
+            if (element.type === 'checkbox') {
+                value = element.checked;
+            } else {
+                value = element.value;
+            }
+            console.log(`Preference '${id}' changed to: ${value}`);
+
+            // Theme change logic
+            if (id === 'theme') {
+                const body = document.body;
+                if (value === 'dark') {
+                    body.classList.add('dark-theme');
+                    // Save theme preference to localStorage
+                    localStorage.setItem('theme', 'dark');
+                } else if (value === 'light') {
+                    body.classList.remove('dark-theme');
+                    // Save theme preference to localStorage
+                    localStorage.setItem('theme', 'light');
+                } else { // System Default
+                    // Remove any explicit theme, let CSS handle it (if it has @media prefers-color-scheme)
+                    body.classList.remove('dark-theme');
+                    localStorage.removeItem('theme'); // Remove specific theme setting
+                    // Re-apply system preference if it's dark
+                    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                         body.classList.add('dark-theme');
+                    }
+                }
+            }
+            // In a real application, you might save this specific preference immediately
+            // via an API call.
+        }
+
+        function handleSavePreferences() {
+            const dataRetention = document.getElementById('data-retention').value;
+            const meetingNoteFormat = document.getElementById('meeting-note-format').value;
+            const taskReminderFrequency = document.getElementById('task-reminder-frequency').value;
+            const theme = document.getElementById('theme').value;
+            const emailNotifications = document.getElementById('email-notifications').checked;
+
+            // Store preferences in localStorage
+            localStorage.setItem('preferences', JSON.stringify({
+                dataRetention,
+                meetingNoteFormat,
+                taskReminderFrequency,
+                theme,
+                emailNotifications
+            }));
+
+            console.log("Saving Preferences:", { dataRetention, meetingNoteFormat, taskReminderFrequency, theme, emailNotifications });
+            console.log("Preferences saved successfully to local storage!");
+            alert("Preferences saved successfully!"); // User feedback
+        }
+
+        // Load preferences from localStorage on page load
+        function loadPreferences() {
+            const savedPreferences = JSON.parse(localStorage.getItem('preferences'));
+            if (savedPreferences) {
+                document.getElementById('data-retention').value = savedPreferences.dataRetention || '90_days';
+                document.getElementById('meeting-note-format').value = savedPreferences.meetingNoteFormat || 'bullet_points';
+                document.getElementById('task-reminder-frequency').value = savedPreferences.taskReminderFrequency || 'weekly';
+                
+                // Set theme and apply it
+                document.getElementById('theme').value = savedPreferences.theme || 'light';
+                // Trigger theme change logic to apply selected theme
+                handlePreferenceChange('theme');
+
+                document.getElementById('email-notifications').checked = savedPreferences.emailNotifications !== undefined ? savedPreferences.emailNotifications : true;
+            }
+        }
+
+
+        // Functions to truly modify account status and update UI
+        function handleDisconnectAccount(account) {
+            console.log(`Executing disconnect for ${account} account.`);
+            // Simulate API call to disconnect
+            accountStatuses[account] = 'not_connected';
+            updateAccountUI(account);
+            console.log(`${account} account disconnected.`);
+        }
+
+        function handleConnectAccount(account) {
+            console.log(`Executing connect for ${account} account.`);
+            // Simulate API call to connect (e.g., OAuth flow)
+            accountStatuses[account] = 'connected';
+            updateAccountUI(account);
+            console.log(`${account} account connected.`);
+        }
+
+        function confirmChangePassword() {
+            const currentPassword = document.getElementById('current-password').value;
+            const newPassword = document.getElementById('new-password').value;
+            const confirmNewPassword = document.getElementById('confirm-new-password').value;
+
+            if (newPassword !== confirmNewPassword) {
+                console.error("New passwords do not match.");
+                alert("New passwords do not match. Please try again.");
+                return;
+            }
+            if (!currentPassword || !newPassword || !confirmNewPassword) {
+                console.error("Please fill in all password fields.");
+                alert("Please fill in all password fields.");
+                return;
+            }
+            console.log("Changing password:", { currentPassword, newPassword });
+            // In a real app, send this to your backend securely
+            console.log("Password changed successfully (simulated).");
+            closeModal('changePasswordModal');
+            // Clear fields after successful submission
+            document.getElementById('current-password').value = '';
+            document.getElementById('new-password').value = '';
+            document.getElementById('confirm-new-password').value = '';
+            alert("Password changed successfully!"); // User feedback
+        }
+
+        function confirmSignOutAllDevices() {
+            console.log("Confirmed: Signing out from all devices.");
+            // In a real app, invalidate all user sessions via API
+            console.log("Signed out from all devices (simulated).");
+            closeModal('signOutModal');
+            alert("Signed out from all devices!"); // User feedback
+        }
+
+        function confirmDeleteAccount() {
+            const confirmationText = document.getElementById('delete-confirmation-text').value;
+            if (confirmationText === "DELETE") {
+                console.log("Confirmed: Deleting account.");
+                // In a real app, send a delete request to your backend
+                console.log("Account deleted (simulated).");
+                closeModal('deleteAccountModal');
+                // Potentially redirect to a "account deleted" page
+                alert("Account deleted permanently!"); // User feedback
+            } else {
+                console.error("Deletion not confirmed. Text did not match 'DELETE'.");
+                alert("Please type 'DELETE' to confirm account deletion.");
+            }
+        }
+
+        // --- Profile Picture Upload Functionality ---
+        function handleProfilePictureUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imageUrl = e.target.result;
+                    document.getElementById('profile-pic-preview').src = imageUrl;
+                    // Save to localStorage (simulated persistence)
+                    localStorage.setItem('profilePicture', imageUrl);
+                    console.log("Profile picture uploaded and saved locally.");
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Load profile picture from localStorage on page load
+        function loadProfilePicture() {
+            const savedPicture = localStorage.getItem('profilePicture');
+            if (savedPicture) {
+                document.getElementById('profile-pic-preview').src = savedPicture;
+            }
+        }
+
+        // Apply saved theme preference on load
+        function applySavedTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const themeSelect = document.getElementById('theme');
+
+            if (savedTheme) {
+                if (savedTheme === 'dark') {
+                    document.body.classList.add('dark-theme');
+                    themeSelect.value = 'dark';
+                } else if (savedTheme === 'light') {
+                    document.body.classList.remove('dark-theme');
+                    themeSelect.value = 'light';
+                }
+            } else {
+                // If no theme saved, check system preference for initial load
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    document.body.classList.add('dark-theme');
+                    themeSelect.value = 'system_default'; // Reflect system default in dropdown
+                } else {
+                    document.body.classList.remove('dark-theme');
+                    themeSelect.value = 'system_default';
+                }
+            }
+        }
+
+
+        // Event Listeners for DOM Content Loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            showSection('basic-info'); // Show Basic Info section by default
+            initializeAccountUIs(); // Initialize connected account UI states
+            loadProfilePicture(); // Load any saved profile picture
+            applySavedTheme(); // Apply saved theme preference
+            loadBasicInfo(); // Load saved basic info
+            loadPreferences(); // Load saved preferences
+
+            // Attach event listener for profile picture input
+            document.getElementById('profile-picture').addEventListener('change', handleProfilePictureUpload);
+        });
+    </script>
 </body>
 </html>
