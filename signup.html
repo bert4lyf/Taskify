@@ -398,22 +398,18 @@
         // Function to toggle password visibility
         function togglePasswordVisibility(targetId) {
             const passwordInput = document.getElementById(targetId);
-            // Select the icon element directly within the button
             const toggleButtonIcon = document.querySelector(`.password-toggle[data-target="${targetId}"] i`);
-            // Select the text node or the button itself to change text content
             const toggleButtonTextContainer = document.querySelector(`.password-toggle[data-target="${targetId}"]`);
 
             if (passwordInput.type === 'password') {
                 passwordInput.type = 'text';
                 toggleButtonIcon.classList.remove('fa-eye');
                 toggleButtonIcon.classList.add('fa-eye-slash');
-                // Update the button's inner HTML to change both icon and text
                 toggleButtonTextContainer.innerHTML = '<i class="far fa-eye-slash"></i> Show';
             } else {
                 passwordInput.type = 'password';
                 toggleButtonIcon.classList.remove('fa-eye-slash');
                 toggleButtonIcon.classList.add('fa-eye');
-                // Update the button's inner HTML to change both icon and text
                 toggleButtonTextContainer.innerHTML = '<i class="far fa-eye"></i> Hide';
             }
         }
@@ -426,7 +422,7 @@
             });
         });
 
-        // Form Submission Handler (for demonstration)
+        // Form Submission Handler
         signupForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const name = document.getElementById('signupName').value;
@@ -437,10 +433,11 @@
             console.log('Name:', name);
             console.log('Email:', email);
             console.log('Password:', password);
-            showMessageBox('Signup Submitted', 'Signup form submitted successfully! (Check console for data)<br><br>Note: Actual user authentication requires a backend service.', () => {
-                signupForm.reset();
-                // Since this is a standalone signup page, we might redirect or show a success message
-                // For demonstration, we'll just close the message box.
+            
+            // Show success message and then redirect to main3.html
+            showMessageBox('Signup Successful!', 'You have successfully signed up for Taskify.AI! Redirecting to the main page...', () => {
+                console.log('User signed up successfully. Redirecting to ../main3.html');
+                window.location.href = '../main3.html'; // Redirect to main3.html
             });
         });
 
