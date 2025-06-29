@@ -4,12 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Taskify.AI - Landing Page</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts - Inter & Space Mono (for unique email input font) -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700;display=swap" rel="stylesheet">
-    <!-- Font Awesome for icons (latest version for fa-x-twitter) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         body {
@@ -29,7 +26,7 @@
         /* Custom styles for hero image background with subtle parallax */
         .hero-section {
             /* Changed from url('./Winx.jpg') to a placeholder image URL */
-            background-image: url('./Winx.jpg');
+            background-image: url('https://placehold.co/1920x1080/0A0A0A/FFFFFF?text=Taskify.AI+Hero+Image');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -394,15 +391,88 @@
                 }
              }
         }
+
+        /* Keyframe for subtle pulse on the video container */
+        @keyframes videoPulse {
+            0% { transform: scale(1); box-shadow: 0 0 0px rgba(99, 102, 241, 0); }
+            50% { transform: scale(1.02); box-shadow: 0 0 20px 10px rgba(99, 102, 241, 0.7); } /* Indigo glow */
+            100% { transform: scale(1); box-shadow: 0 0 0px rgba(99, 102, 241, 0); }
+        }
+
+        /* Styles for the loading overlay */
+        #loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0d111c; /* A dark background to match the video */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; /* Ensure it's on top of everything */
+            opacity: 1;
+            /* Add radial gradient and transition for outstanding effect */
+            background-image: radial-gradient(circle at center, rgba(13, 17, 28, 1) 0%, rgba(13, 17, 28, 0.9) 70%, rgba(13, 17, 28, 0.5) 100%);
+            transition: opacity 0.5s ease-out, background-image 0.5s ease-out; /* Smooth fade-out and gradient transition */
+        }
+
+        #loading-overlay.hidden {
+            opacity: 0;
+            pointer-events: none; /* Allow clicks on elements underneath once hidden */
+            background-image: radial-gradient(circle at center, rgba(13, 17, 28, 0) 0%, rgba(13, 17, 28, 0) 70%, rgba(13, 17, 28, 0) 100%); /* Fade out gradient */
+        }
+
+        #loading-video-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            max-width: 300px; /* Adjust size as needed */
+            max-height: 300px; /* Adjust size as needed */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px; /* Slightly rounded corners for the container */
+            overflow: hidden; /* Ensure video stays within container */
+            animation: videoPulse 2s infinite ease-in-out; /* Apply pulse animation */
+        }
+
+        #loading-video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Ensure the video fits within its container without cropping */
+        }
+
+        /* Hide body content until loading is complete to prevent flicker */
+        body.loading-active > *:not(#loading-overlay) {
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s 0.5s, opacity 0.5s linear; /* Delay visibility change until after fade */
+        }
+
+        body:not(.loading-active) > *:not(#loading-overlay) {
+            visibility: visible;
+            opacity: 1;
+        }
+
     </style>
 </head>
-<body class="text-gray-800">
+<body class="loading-active"> <div id="loading-overlay">
+        <div id="loading-video-container">
+            <video id="loading-video" autoplay muted playsinline>
+                <source src="Taskify Anim.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <audio id="loading-sound" muted>
+            <source src="YOUR_WAVE_SOUND_FILE.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
 
-    <!-- Header Section -->
     <header class="bg-white py-4 shadow-sm fixed w-full z-50 top-0">
         <nav class="container flex justify-between items-center">
             <div class="flex items-center space-x-2">
-                <!-- Taskify.AI -Landing Page -->
                 <i class="fas fa-tasks text-indigo-600 text-xl logo-icon"></i>
                 <a href="index.html" class="font-bold text-xl text-gray-900 no-underline hover:text-indigo-600 transition-colors duration-200">Taskify.AI</a>
             </div>
@@ -413,18 +483,16 @@
                 <a href="#cta-section" class="text-gray-700 nav-link-hover font-medium transition duration-300">Contact Us</a>
                 <a href="main3.html" class="text-gray-700 nav-link-hover font-medium transition duration-300">Taskify.AI</a>
             
-                <a href="./login.html" class="bg-transparent text-indigo-600 border border-indigo-600 py-2 px-4 rounded-lg hover:bg-indigo-50 btn-hover-bounce transition duration-300">Login</a>
+                <a href="/singin/login.html" class="bg-transparent text-indigo-600 border border-indigo-600 py-2 px-4 rounded-lg hover:bg-indigo-50 btn-hover-bounce transition duration-300">Login</a>
             
-                <a href="./signup.html" class="bg-indigo-600 text-white py-2 px-4 rounded-lg shadow-md hover:bg-indigo-700 btn-hover-bounce transition duration-300">Sign Up</a>
+                <a href="./singin/signup.html" class="bg-indigo-600 text-white py-2 px-4 rounded-lg shadow-md hover:bg-indigo-700 btn-hover-bounce transition duration-300">Sign Up</a>
             </div>
-            <!-- Mobile Menu Button -->
             <div class="md:hidden">
                 <button id="mobile-menu-button" class="text-gray-700 focus:outline-none p-2 rounded-md hover:bg-gray-100 transition duration-200">
                     <i class="fas fa-bars text-xl"></i>
                 </button>
             </div>
         </nav>
-        <!-- Mobile Menu (Hidden by default) -->
         <div id="mobile-menu" class="hidden md:hidden bg-white px-4 pt-2 pb-4 shadow-lg">
             <a href="#features-section" class="block py-2 text-gray-700 mobile-menu-item rounded-md font-medium transition duration-200">Features</a>
             <a href="#about-us-section" class="block py-2 text-gray-700 mobile-menu-item rounded-md font-medium transition duration-200">About</a>
@@ -436,10 +504,7 @@
         </div>
     </header>
 
-    <main class="mt-16 md:mt-20"> <!-- Adjust margin-top to account for fixed header -->
-        <!-- Hero Section -->
-        <section class="hero-section py-24 md:py-32 text-center text-white relative overflow-hidden">
-            <!-- Overlay with rounded corners -->
+    <main class="mt-16 md:mt-20"> <section class="hero-section py-24 md:py-32 text-center text-white relative overflow-hidden">
             <div class="absolute inset-0 bg-black bg-opacity-40 rounded-xl mx-4 my-8 md:mx-auto md:my-16 max-w-7xl"></div>
             <div class="container relative z-10 fade-in-section">
                 <h1 class="text-3xl md:text-5xl font-bold mb-4 leading-tight">Empower Your Team with Intelligent Assistance</h1>
@@ -447,7 +512,6 @@
             </div>
         </section>
 
-        <!-- Key Features Section -->
         <section class="py-16 md:py-24 bg-white fade-in-section" id="features-section">
             <div class="container">
                 <h2 class="text-3xl md:text-4xl font-bold mb-8 md:mb-12 text-center">Key Features</h2>
@@ -459,7 +523,6 @@
                 </p>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <!-- Feature Card 1: Smart Task Delegation -->
                     <div class="bg-gray-50 p-6 rounded-xl shadow-md border border-gray-200 transition duration-300 ease-in-out card-hover-effect">
                         <div class="flex items-center mb-4">
                             <i class="fas fa-list-check text-2xl text-indigo-600 mr-3 feature-icon transition duration-300"></i>
@@ -471,7 +534,6 @@
                         </p>
                     </div>
 
-                    <!-- Feature Card 2: Ethics Auditor -->
                     <div class="bg-gray-50 p-6 rounded-xl shadow-md border border-gray-200 transition duration-300 ease-in-out card-hover-effect">
                         <div class="flex items-center mb-4">
                             <i class="fas fa-shield-alt text-2xl text-indigo-600 mr-3 feature-icon transition duration-300"></i>
@@ -483,7 +545,6 @@
                         </p>
                     </div>
 
-                    <!-- Feature Card 3: AI-Powered Note-Taking -->
                     <div class="bg-gray-50 p-6 rounded-xl shadow-md border border-gray-200 transition duration-300 ease-in-out card-hover-effect">
                         <div class="flex items-center mb-4">
                             <i class="fas fa-robot text-2xl text-indigo-600 mr-3 feature-icon transition duration-300"></i>
@@ -498,7 +559,6 @@
             </div>
         </section>
 
-        <!-- About Us Section -->
         <section class="py-16 md:py-24 bg-gray-100 fade-in-section" id="about-us-section">
             <div class="container grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 <div>
@@ -523,13 +583,11 @@
             </div>
         </section>
 
-        <!-- What Our Users Say Section -->
         <section class="py-16 md:py-24 bg-white fade-in-section" id="testimonials-section">
             <div class="container">
                 <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center">What Our Users Say</h2>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <!-- Testimonial Card 1 -->
                     <div class="bg-gray-50 p-6 rounded-xl shadow-md border border-gray-200 text-center transition duration-300 ease-in-out card-hover-effect">
                         <img src="https://placehold.co/120x120/E0E0E0/666666?text=User1" alt="Sophia Chen" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover transform transition duration-300 hover:scale-110 border-4 border-transparent hover:border-indigo-400">
                         <p class="text-gray-700 mb-4">
@@ -540,7 +598,6 @@
                         <p class="text-sm text-gray-500">Project Manager</p>
                     </div>
 
-                    <!-- Testimonial Card 2 -->
                     <div class="bg-gray-50 p-6 rounded-xl shadow-md border border-gray-200 text-center transition duration-300 ease-in-out card-hover-effect">
                         <img src="https://placehold.co/120x120/E0E0E0/666666?text=User2" alt="Derek Lee" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover transform transition duration-300 hover:scale-110 border-4 border-transparent hover:border-indigo-400">
                         <p class="text-gray-700 mb-4">
@@ -551,7 +608,6 @@
                         <p class="text-sm text-gray-500">Team Lead</p>
                     </div>
 
-                    <!-- Testimonial Card 3 -->
                     <div class="bg-gray-50 p-6 rounded-xl shadow-md border border-gray-200 text-center transition duration-300 ease-in-out card-hover-effect">
                         <img src="https://placehold.co/120x120/E0E0E0/666666?text=User3" alt="Olivia Rodriguez" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover transform transition duration-300 hover:scale-110 border-4 border-transparent hover:border-indigo-400">
                         <p class="text-gray-700 mb-4">
@@ -565,7 +621,6 @@
             </div>
         </section>
 
-        <!-- Call to Action Section -->
         <section class="py-16 md:py-24 bg-gray-100 text-center fade-in-section" id="cta-section">
             <div class="container">
                 <h2 class="text-3xl md:text-4xl font-bold mb-8">Ready to Transform Your Team's Productivity?</h2>
@@ -574,20 +629,15 @@
         </section>
     </main>
 
-    <!-- Footer Section -->
     <footer class="footer-bg-animated text-white py-12 fade-in-section">
         <div class="container grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-8 text-left">
-            <!-- Brand -->
             <div class="col-span-1 md:col-span-1 lg:col-span-1 flex flex-col items-center md:items-start text-center md:text-left">
                 <div class="flex items-center space-x-2 mb-4">
-                    <i class="fas fa-tasks text-indigo-400 text-2xl logo-icon"></i> <!-- Pulsating icon in footer too -->
-                    <span class="font-bold text-2xl">Taskify</span>
+                    <i class="fas fa-tasks text-indigo-400 text-2xl logo-icon"></i> <span class="font-bold text-2xl">Taskify</span>
                 </div>
             </div>
 
-            <!-- Solutions -->
-            <div class="pl-0 md:pl-4 text-center md:text-left"> <!-- Adjust padding for alignment -->
-                <h4 class="font-semibold text-lg mb-4">Solutions</h4>
+            <div class="pl-0 md:pl-4 text-center md:text-left"> <h4 class="font-semibold text-lg mb-4">Solutions</h4>
                 <ul>
                     <li class="mb-2"><a href="#" class="text-gray-400 hover:text-white transition duration-200">Enterprise</a></li>
                     <li class="mb-2"><a href="#" class="text-gray-400 hover:text-white transition duration-200">Corporate</a></li>
@@ -595,9 +645,7 @@
                 </ul>
             </div>
 
-            <!-- Company -->
-            <div class="pl-0 md:pl-4 text-center md:text-left"> <!-- Adjust padding for alignment -->
-                <h4 class="font-semibold text-lg mb-4">Company</h4>
+            <div class="pl-0 md:pl-4 text-center md:text-left"> <h4 class="font-semibold text-lg mb-4">Company</h4>
                 <ul>
                     <li class="mb-2"><a href="#" class="text-gray-400 hover:text-white transition duration-200">About Us</a></li>
                     <li class="mb-2"><a href="#" class="text-gray-400 hover:text-white transition duration-200">Careers</a></li>
@@ -605,9 +653,7 @@
                 </ul>
             </div>
 
-            <!-- Learn -->
-            <div class="pl-0 md:pl-4 text-center md:text-left"> <!-- Adjust padding for alignment -->
-                <h4 class="font-semibold text-lg mb-4">Learn</h4>
+            <div class="pl-0 md:pl-4 text-center md:text-left"> <h4 class="font-semibold text-lg mb-4">Learn</h4>
                 <ul>
                     <li class="mb-2"><a href="#" class="text-gray-400 hover:text-white transition duration-200">Blog</a></li>
                     <li class="mb-2"><a href="#" class="text-gray-400 hover:text-white transition duration-200">Guides</a></li>
@@ -615,9 +661,7 @@
                 </ul>
             </div>
 
-            <!-- Services & Follow Us -->
-            <div class="pl-0 md:pl-4 text-center md:text-left"> <!-- Adjust padding for alignment -->
-                <h4 class="font-semibold text-lg mb-4">Services</h4>
+            <div class="pl-0 md:pl-4 text-center md:text-left"> <h4 class="font-semibold text-lg mb-4">Services</h4>
                 <ul>
                     <li class="mb-2"><a href="#" class="text-gray-400 hover:text-white transition duration-200">Ethics Auditor</a></li>
                     <li class="mb-2"><a href="#" class="text-gray-400 hover:text-white transition duration-200">Task Delegation</a></li>
@@ -626,21 +670,16 @@
                 <h4 class="font-semibold text-lg mb-4 mt-6">Follow Us On</h4>
                 <div class="flex space-x-4 justify-center md:justify-start">
                     <a href="#" class="text-gray-400 footer-social-icon transition duration-300"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="text-gray-400 footer-social-icon transition duration-300"><i class="fab fa-x-twitter"></i></a> <!-- Updated for 'X' logo -->
-                    <a href="#" class="text-gray-400 footer-social-icon transition duration-300"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="text-gray-400 footer-social-icon transition duration-300"><i class="fab fa-x-twitter"></i></a> <a href="#" class="text-gray-400 footer-social-icon transition duration-300"><i class="fab fa-linkedin-in"></i></a>
                 </div>
                 <p class="text-gray-400 mt-4 text-sm">support@taskify.ai</p>
             </div>
         </div>
 
-        <!-- Email Signup Wrapper (moved outside the main grid for better flexibility and placement below columns) -->
         <div class="container flex justify-center">
             <div class="email-signup-wrapper w-full max-w-lg mx-auto mt-12 md:mt-16 lg:mt-20">
-                <div class="footer-input-bg-effect"></div> <!-- Background shine effect -->
-                <!-- Text aligned to center for all screens to match the image -->
-                <p class="email-signup-content-text text-center w-full">Stay updated with our latest news!</p>
-                <div class="email-signup-input-group flex-col sm:flex-row w-full justify-center"> <!-- Center input group on smaller screens -->
-                    <input type="email" class="email-signup-input" placeholder="Enter your business email">
+                <div class="footer-input-bg-effect"></div> <p class="email-signup-content-text text-center w-full">Stay updated with our latest news!</p>
+                <div class="email-signup-input-group flex-col sm:flex-row w-full justify-center"> <input type="email" class="email-signup-input" placeholder="Enter your business email">
                     <button class="footer-email-btn">Subscribe</button>
                 </div>
             </div>
@@ -716,6 +755,74 @@
             // Note: The FAQ dropdown logic was specific to a previous iteration of the FAQ link,
             // and is not directly relevant to this index.html file's footer.
             // Keeping this comment as a reminder if the user asks about it later.
+        });
+
+        // NEW JAVASCRIPT FOR LOADING ANIMATION
+        document.addEventListener('DOMContentLoaded', () => {
+            const loadingOverlay = document.getElementById('loading-overlay');
+            const loadingVideo = document.getElementById('loading-video');
+            const loadingSound = document.getElementById('loading-sound');
+            const body = document.body;
+
+            // Function to hide the loading overlay
+            function hideLoadingOverlay() {
+                loadingOverlay.classList.add('hidden'); // Start fade-out
+                body.classList.remove('loading-active'); // Show main content
+                
+                // Stop and reset sound
+                if (!loadingSound.paused) {
+                    loadingSound.pause();
+                    loadingSound.currentTime = 0;
+                }
+
+                // Remove the overlay from DOM after transition to ensure no lingering interaction
+                loadingOverlay.addEventListener('transitionend', () => {
+                    loadingOverlay.remove();
+                }, { once: true });
+            }
+
+            // Play sound and video
+            loadingVideo.play();
+            // Attempt to play sound, but keep it muted initially due to browser autoplay policies
+            // User interaction might be required to unmute
+            loadingSound.volume = 0.5; // Adjust volume as needed
+            loadingSound.play().catch(error => {
+                console.log('Autoplay for sound prevented:', error);
+                // Optionally, add a button to allow user to unmute/play sound
+            });
+
+            // Ensure the video plays and then hides the overlay
+            loadingVideo.addEventListener('ended', () => {
+                hideLoadingOverlay();
+            });
+
+            // Fallback for cases where video 'ended' event might not fire (e.g., if autoplay is blocked)
+            // Or if we want a minimum display time for the animation
+            const minDisplayTime = 3000; // Minimum 3 seconds for the animation to play
+            let videoEnded = false;
+            let minimumTimeElapsed = false;
+
+            loadingVideo.addEventListener('ended', () => {
+                videoEnded = true;
+                if (minimumTimeElapsed) {
+                    hideLoadingOverlay();
+                }
+            });
+
+            setTimeout(() => {
+                minimumTimeElapsed = true;
+                if (videoEnded) {
+                    hideLoadingOverlay();
+                }
+            }, minDisplayTime);
+
+            // In case the video takes too long to load or fails, hide after a timeout
+            setTimeout(() => {
+                if (!loadingOverlay.classList.contains('hidden')) {
+                    console.warn('Loading animation timed out. Hiding overlay.');
+                    hideLoadingOverlay();
+                }
+            }, 7000); // Hide after 7 seconds if not already hidden (increased for more buffer)
         });
     </script>
 </body>
