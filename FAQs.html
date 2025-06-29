@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Frequently Asked Questions</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* Import Inter font */
@@ -201,7 +199,6 @@
         <h1 class="faq-header">Frequently Asked Questions</h1>
 
         <div class="faq-list">
-            <!-- FAQ Item 1 (Expanded by default) -->
             <div class="faq-item active">
                 <div class="faq-question">
                     <h3>What is Taskify.AI?</h3>
@@ -212,53 +209,54 @@
                 </div>
             </div>
 
-            <!-- FAQ Item 2 -->
-            <div class="faq-item">
+            <div class="faq-item active">
                 <div class="faq-question">
                     <h3>How does Taskify.AI use AI?</h3>
-                    <i class="fas fa-plus"></i>
+                    <i class="fas fa-times"></i>
                 </div>
                 <div class="faq-answer">
                     <p>Our AI is trained to understand natural language in meetings, automatically identify action items, summarize key discussions, and detect phrases or topics that might indicate ethical breaches. This saves time and ensures important points are never missed.</p>
                 </div>
             </div>
 
-            <!-- FAQ Item 3 -->
-            <div class="faq-item">
+            <div class="faq-item active">
                 <div class="faq-question">
                     <h3>Is my data secure with Taskify.AI?</h3>
-                    <i class="fas fa-plus"></i>
+                    <i class="fas fa-times"></i>
                 </div>
                 <div class="faq-answer">
                     <p>Yes, data security is our top priority. We use industry-standard encryption protocols and secure servers to protect your information. All data processed by our AI models is anonymized and used strictly for improving your experience and service quality, never for third-party purposes without explicit consent.</p>
                 </div>
             </div>
 
-            <!-- FAQ Item 4 -->
-            <div class="faq-question">
-                <h3>Can I integrate Taskify.AI with other tools?</h3>
-                <i class="fas fa-plus"></i>
-            </div>
-            <div class="faq-answer">
-                <p>Absolutely! Taskify.AI supports seamless integration with popular calendar applications (e.g., Google Calendar, Outlook Calendar), video conferencing platforms (e.g., Zoom, Microsoft Teams), and various project management tools (e.g., Jira, Asana, Trello). This allows for automatic meeting imports, streamlined note capture, and efficient task management across your existing ecosystem.</p>
-            </div>
-
-            <!-- FAQ Item 5 -->
-            <div class="faq-question">
-                <h3>What is "Ethics Flagging"?</h3>
-                <i class="fas fa-plus"></i>
-            </div>
-            <div class="faq-answer">
-                <p>Ethics Flagging is an AI-powered feature that intelligently analyzes meeting discussions for keywords or conversational patterns that may indicate a potential breach of company ethics, compliance rules, or legal guidelines. When a potential flag is raised, the system can alert designated personnel for review, promoting responsible conduct and mitigating risks. This feature helps maintain high ethical standards within your organization.</p>
+            <div class="faq-item active">
+                <div class="faq-question">
+                    <h3>Can I integrate Taskify.AI with other tools?</h3>
+                    <i class="fas fa-times"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Absolutely! Taskify.AI supports seamless integration with popular calendar applications (e.g., Google Calendar, Outlook Calendar), video conferencing platforms (e.g., Zoom, Microsoft Teams), and various project management tools (e.g., Jira, Asana, Trello). This allows for automatic meeting imports, streamlined note capture, and efficient task management across your existing ecosystem.</p>
+                </div>
             </div>
 
-            <!-- FAQ Item 6 -->
-            <div class="faq-question">
-                <h3>How do I change my notification preferences?</h3>
-                <i class="fas fa-plus"></i>
+            <div class="faq-item active">
+                <div class="faq-question">
+                    <h3>What is "Ethics Flagging"?</h3>
+                    <i class="fas fa-times"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Ethics Flagging is an AI-powered feature that intelligently analyzes meeting discussions for keywords or conversational patterns that may indicate a potential breach of company ethics, compliance rules, or legal guidelines. When a potential flag is raised, the system can alert designated personnel for review, promoting responsible conduct and mitigating risks. This feature helps maintain high ethical standards within your organization.</p>
+                </div>
             </div>
-            <div class="faq-answer">
-                <p>You can easily customize all your notification preferences to suit your needs. Simply navigate to the 'Settings' page within Taskify.AI and locate the 'Notifications' section. Here, you'll find various toggles and options to control alerts for task assignments, ethics flags, weekly summaries, and even your preferred meeting note delivery format. Remember to save your changes to apply them.</p>
+
+            <div class="faq-item active">
+                <div class="faq-question">
+                    <h3>How do I change my notification preferences?</h3>
+                    <i class="fas fa-times"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>You can easily customize all your notification preferences to suit your needs. Simply navigate to the 'Settings' page within Taskify.AI and locate the 'Notifications' section. Here, you'll find various toggles and options to control alerts for task assignments, ethics flags, weekly summaries, and even your preferred meeting note delivery format. Remember to save your changes to apply them.</p>
+                </div>
             </div>
         </div>
     </div>
@@ -277,7 +275,7 @@
                     icon.classList.remove('fa-plus');
                     icon.classList.add('fa-times'); // Use 'x' icon for expanded
                     // Set initial height for active item to allow content to be visible on load
-                    answer.style.maxHeight = answer.scrollHeight + 50 + 'px'; 
+                    answer.style.maxHeight = answer.scrollHeight + 50 + 'px';
                 } else {
                     // Ensure initial height is 0 for non-active items
                     answer.style.maxHeight = '0px';
@@ -290,7 +288,7 @@
                     // Adjust max-height for smooth animation
                     if (item.classList.contains('active')) {
                         // When expanding, set max-height to scrollHeight + a buffer for bounce
-                        answer.style.maxHeight = (answer.scrollHeight + 50) + 'px'; 
+                        answer.style.maxHeight = (answer.scrollHeight + 50) + 'px';
                         icon.classList.remove('fa-plus');
                         icon.classList.add('fa-times'); // Change to 'x' icon
                     } else {
