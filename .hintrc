@@ -6,7 +6,6 @@
     "axe/forms": [
       "default",
       {
-        "select-name": "off",
         "label": "off"
       }
     ],
@@ -17,19 +16,6 @@
         "link-name": "off"
       }
     ],
-    "axe/text-alternatives": [
-      "default",
-      {
-        "image-alt": "off"
-      }
-    ],
-    "compat-api/css": [
-      "default",
-      {
-        "ignore": [
-          "backdrop-filter"
-        ]
-      }
-    ]
+    "no-inline-styles": "off"
   }
 }
