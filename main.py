@@ -18,7 +18,7 @@ app.add_middleware(
 
 @app.get("/")
 async def root():
-    return FileResponse("main3.html") 
+    return FileResponse("/main3.html") 
 
 @app.post("/process-transcript")
 async def process_transcript(request: Request):
